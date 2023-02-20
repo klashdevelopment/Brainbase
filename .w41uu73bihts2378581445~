@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT Helper</title>
+    <link href="https://gtml.gavingogamingrepl.repl.co/regular-ass-style.css" rel="stylesheet">
+</head>
+<body>
+    <center>
+        <h1>GPT Helper</h1>
+        <h3>Gavin's OpenAI GPT-3 Server</h3>
+        <input placeholder="Prompt..." id="prompt"><br>
+        <input type="checkbox" id="code">
+        <a>Code Completion Mode</a><br>
+        <input type="checkbox" id="completion" checked="true">
+        <a>Question Mode <a style="font-size:14px;">(Text Completion mode if disabled)</a></a><br>
+
+        <br><br>
+        <button onclick="
+        var completion = document.getElementById('completion').checked;
+        var code = document.getElementById('code').checked;
+        var prompt = document.getElementById('prompt').value;
+        window.location.href=`/api?question=${prompt}${(code ? '&code' : '')}${(completion ? '&completing' : '')}`;
+        ">Ask GPT3!</button>
+    </center>
+</body>
+</html>

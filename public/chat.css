@@ -1,0 +1,24 @@
+@import url("/navs.css");
+ul.chat {
+    list-style: none;
+}
+ul.chat li {
+    padding: 18px;
+    background-color: #333;
+    border-radius: 10px;
+    margin-right: 30px;
+    margin-bottom: 8px;
+}
+[type="text"] {
+    width: 60%;
+    padding: 15px;
+    border-radius: 4px;
+    resize: none;
+    font-family: "Arial";
+    background-color: #303030;
+    color: white;
+    border-color: white;
+}
+input::placeholder {
+    font-size: 18px;
+}
