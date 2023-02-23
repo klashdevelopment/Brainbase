@@ -9,6 +9,19 @@
   <link href="https://unpkg.com/movement.css/movement.css" rel="stylesheet">
   <style>
     @import url('./navs.css');
+    [type="text"] {
+        width: 60%;
+        padding: 15px;
+        border-radius: 4px;
+        resize: none;
+        font-family: "Arial";
+        background-color: #303030;
+        color: white;
+        border-color: white;
+    }
+    input::placeholder {
+        font-size: 18px;
+    }
   </style>
 </head>
 <body>
@@ -41,7 +54,6 @@
       }, 250);
     });
   </script>
-  
     <nav class="nav">
         <ul>
             <li data-link="/"><span>Home</span><i class='fa-solid fa-house'></i></li>
@@ -54,7 +66,28 @@
         </ul>
     </nav>
   <center class='content'>
-    Hello, world!
+    <h1>Brainbase: Vision</h1>
+    <h3><i>Brainbase with a pair of eyes.</i></h3>
+    <img src='/default.png' width=256 height=256 id=result><br>
+    <textarea id='ask' placeholder="Prompt..."></textarea><br>
+    <button id=imagen>Imagen It</button>
+    <script>
+      var result = document.querySelector('#result');
+      var at = document.querySelector('#ask');
+      async function handle(url) {
+        console.log(JSON.stringify(json));
+        result.src = json.url;
+      }
+      async function ask() {
+        result.src = '/loading.gif';
+        await fetch('/imagen?prompt='+at.value)
+        .then(res => res.json())
+        .then(async json => {
+          await handle(json.url);
+        });
+      }
+      document.querySelector('#imagen').addEventListener('click', ask);
+    </script>
   </center>
 </body>
 </html>

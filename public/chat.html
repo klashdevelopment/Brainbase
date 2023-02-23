@@ -51,10 +51,12 @@
         </nav>
         <center class="content">
           <link href='chat.css' rel="stylesheet">
-            <h1>Brainbase Chat</h1>
+<!--             <h1>Brainbase Chat</h1> -->
             <ul class="chat">
-                <li>
-                    <b><i>*Brainbase has joined the chat...*</i></b>
+                <li class='titleBar'>
+                    <i class="fa-duotone fa-2x fa-brain-circuit"></i>
+                    <b><a style='font-size:26px'>Brainbase - Chat</a></b>
+                    <i class="fa-duotone fa-user fa-2x"></i>
                 </li>
             </ul>
             <br />
@@ -65,9 +67,36 @@
             <button class=big onclick="addOn()">Send<i class="fa-duotone fa-paper-plane"></i></button><br />
             <button onclick="saveConvo()"><a>Save <i class="fa-duotone fa-download"></i></a></button>
             <button onclick="loadConvo()"><a>Load <i class="fa-duotone fa-upload"></i></a></button><br />
+            <button onclick="deleteConvo()"><a>Delete Saved Convo <i class="fa-duotone fa-circle-xmark"></i></a></button><br />
             <button onclick="window.location.href='/chatbot/customization'"><a>Customization <i class="fa-duotone fa-paintbrush-pencil"></i></a></button><br />
         </center>
         <script>
+          var helper = {
+ // Remove and return the first occurrence
+
+ remove: function(array, predicate) {
+  for (var i = 0; i < array.length; i++) {
+   if (predicate(array[i])) {
+    return array.splice(i, 1);
+   }
+  }
+ },
+
+ // Remove and return all occurrences
+
+ removeAll: function(array, predicate) {
+  var removed = [];
+
+  for (var i = 0; i < array.length; ) {
+   if (predicate(array[i])) {
+    removed.push(array.splice(i, 1));
+    continue;
+   }
+   i++;
+  }
+  return removed;
+ },
+};
             let history = [];
             function saveConvo() {
               var Format = `${JSON.stringify(history)}`;
@@ -83,6 +112,28 @@
               window.localStorage.savedConversations = JSON.stringify(savedCS);
               alert("Saved!");
             }
+
+            function deleteConvo() {
+              if(window.localStorage.savedConversations==null||window.localStorage.savedConversations==''||window.localStorage.savedConversations==" "){
+                window.localStorage.savedConversations='[]';
+              }
+              var convos = "";
+              for(var CV of JSON.parse(window.localStorage.savedConversations)) {
+                convos += "\n"+CV.name;
+              }
+              var name = prompt("Enter convo name out of these:"+convos, "");
+              var comp = false;
+              JSON.parse(window.localStorage.savedConversations).forEach(item => {
+                if(item.name === name) {
+                  var osc = JSON.parse(window.localStorage.savedConversations);
+                  var remmed = helper.removeAll(osc, it=>it.name.startsWith(item.name));
+                  window.localStorage.savedConversations = JSON.stringify(osc);
+                  comp = true;
+                  alert('Removed');
+                }
+              });
+              if(!comp) alert("Couldnt find that one.");
+            }
             function loadConvo() {
               if(window.localStorage.savedConversations==null||window.localStorage.savedConversations==''||window.localStorage.savedConversations==" "){
                 window.localStorage.savedConversations='[]';
@@ -97,10 +148,17 @@
                 if(item.name === name) {
                   history = JSON.parse(item.convo);
                   var chatList = document.querySelector('.chat');
-                  var content = `<ul class="chat">`;
+                  var content = `<ul class="chat">
+                <li class='titleBar'>
+                    <i class="fa-duotone fa-2x fa-brain-circuit"></i>
+                    <b><a style='font-size:26px'>Brainbase - Chat</a></b>
+                    <i class="fa-duotone fa-user fa-2x"></i>
+                </li>`;
                   for(var hI of history) {
-                    content +=
+                    content += `<li><center><div style="text-align:left;"><i class='fa-duotone fa-${hI.person == 'Brainbase' ? 'brain-circuit' : 'user'}' style='scale:1.3;'></i> <a style='margin-left:1${hI.person == 'Brainbase' ? '0' : '2'}px;'>${hI.answer}</a></div></center></li>`;
                   }
+                  content += `</ul>`
+                  chatList.outerHTML = content;
                   alert("Loaded!");
                   comp = true;
                 }
@@ -120,7 +178,7 @@
                         .querySelector(".chat")
                         .insertAdjacentHTML(
                             "beforeend",
-                            `<li><center><div style="text-align:left;"><i class='fa-solid fa-brain-circuit' style='scale:1.3;'></i> <a style='margin-left:10px;'>${l.replaceAll("\\n", "<br>")}</a></div></center></li>`
+                            `<li><center><div style="text-align:left;"><i class='fa-duotone fa-brain-circuit' style='scale:1.3;'></i> <a style='margin-left:10px;'>${l.replaceAll("\\n", "<br>")}</a></div></center></li>`
                         );
                 }
             }
@@ -146,7 +204,7 @@
                 }
                 document
                     .querySelector(".chat")
-                    .insertAdjacentHTML("beforeend", `<li><div style="text-align:left;"><i class='fa-solid fa-user' style='scale:1.3;'></i> <a style='margin-left:16px;'>${q.replaceAll("\n", "<br>")}</a></div></li>`);
+                    .insertAdjacentHTML("beforeend", `<li><div style="text-align:left;"><i class='fa-duotone fa-user' style='scale:1.3;'></i> <a style='margin-left:12px;'>${q.replaceAll("\n", "<br>")}</a></div></li>`);
                 history.push({answer: q, person: 'Human'});
                 const params = { history: formatHistory() };
                 fetch(

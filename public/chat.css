@@ -22,3 +22,11 @@ ul.chat li {
 input::placeholder {
     font-size: 18px;
 }
+ul.chat li.titleBar {
+    padding: 18px;
+    text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em blue;
+    background-color: #1f1f1f !important;
+    border-radius: 10px;
+    margin-right: 30px;
+    margin-bottom: 8px;
+}

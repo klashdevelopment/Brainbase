@@ -3,13 +3,18 @@ const bodyParser = require('body-parser');
 function parseArray(array) {
   return JSON.stringify(array);
 }
-function runchat(askGpt, app) {
+function runchat(askGpt, app, askImagen) {
   app.use(bodyParser.json());
   app.use('/chatbot/customization', (req, res) => {
     res.end(require('fs').readFileSync('public/customize.html', { encoding: 'utf-8' }));
   });
   app.use('/chatbot', (req, res) => {
     res.end(require('fs').readFileSync('public/chat.html', { encoding: 'utf-8' }));
+  });
+  app.use('/imagen', async(req,res)=>{
+    var q = req.query.prompt;
+    var r = await askImagen(q);
+    res.end(r);
   });
   app.use('/chatbotresponse', async (req, res) => {
     try {

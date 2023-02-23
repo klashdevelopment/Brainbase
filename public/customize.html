@@ -29,26 +29,13 @@
     color: white;
     border-color: white;
   }
-  button {
-    background-color: skyblue;
-    color: black;
-    padding: 5px;
-    border-radius: 7px;
-    border: 1px solid white;
-    cursor: pointer;
-    box-sizing: border-box;
-    width: 30%;
-    transition: color, background-color, font-size, width, margin-top;
-    transition-duration: 0.25s;
-    margin-top: 20px;
-    transition-timing-function: ease-in-out;
+  .spin {
+    transform: rotate(360deg);
+    transition: transform 0.5s ease-in-out;
   }
-  button:hover {
-    color: black;
-    background-color: deepskyblue;
-    font-size: 18px;
-    width: 35%;
-    margin-top: 12px;
+  .clr {
+    transition: color 0.25s ease-in-out;
+    color: limegreen;
   }
 </style>
 </head>
@@ -102,9 +89,8 @@
 <input id="person" type="text" placeholder="Insert personality..."><br>
 <h3>Character (make brainbase act as _________)</h3>
 <input id="char" type="text" placeholder="Insert character..."><br>
-<button onclick="update()"><h3>Update</h3></button><br>
-      
-<button data-lp="true" onclick="window.history.back()"><h4>Go Back</h4></button>
+<button class='big up' onclick="update()">Update <i class="fa-duotone fa-upload"></i></button><br>
+<button class=big data-lp="true" onclick="window.history.back()">Go Back <i class="fa-solid fa-circle-arrow-left"></i></button>
     </center>
   <script>
     function loadPersonality() {
@@ -122,6 +108,13 @@
   loadPersonality();
   loadCharacter();
   function update() {
+    document.querySelector('.up > i').classList.add('spin');
+    document.querySelector('.up').classList.add('clr');
+    setTimeout(()=>{
+      document.querySelector('.up > i').classList.remove('spin');
+      document.querySelector('.up').classList.remove('clr');
+      alert('saved!');
+    }, 1000);
     window.localStorage.personality = document.querySelector('#person').value;
     window.localStorage.character = document.querySelector('#char').value;
   }

@@ -3,9 +3,11 @@ module.exports = function(jsonAnswer, question) {
   return `
   <html>
   <head>
+  <title>${question} | Brainbase</title>
     <link href="https://gtml.gavingogamingrepl.repl.co/regular-ass-style.css" rel="stylesheet">
   <link href="https://unpkg.com/movement.css/movement.css" rel="stylesheet">
   <style>
+  @import url('/navs.css');
     /* Style the button that is used to open and close the collapsible content */
     .collapsible {
       background-color: #eee;
@@ -25,7 +27,7 @@ module.exports = function(jsonAnswer, question) {
     }
     
     /* Style the collapsible content. Note: hidden by default */
-    .content {
+    .content2 {
       padding: 0 18px;
       display: none;
       overflow: hidden;
@@ -36,12 +38,51 @@ module.exports = function(jsonAnswer, question) {
   </head>
   <body>
   
-    <center style="margin-left:17%;margin-right:17%;">
+        <div class="menu-icon"><i class="fa-solid fa-bars"></i></div>
+        <div class="close-icon"><i class="fa-solid fa-x"></i></div>
+        <script>
+            var menuIcon = document.querySelector(".menu-icon");
+            var closeIcon = document.querySelector(".close-icon");
+            menuIcon.onclick = () => {
+                closeIcon.style.display = "block";
+                var nav = document.querySelector(".nav");
+                nav.style.display = "block";
+                document.querySelector(".content").style.filter = "blur(4px)";
+                setTimeout(() => {
+                    nav.classList.add("slide-in");
+                }, 10);
+            };
+            closeIcon.onclick = () => {
+                closeIcon.style.display = "none";
+                var nav = document.querySelector(".nav");
+                nav.style.display = "none";
+                document.querySelector(".content").style.filter = "none";
+                nav.classList.remove("slide-in");
+                nav.classList.add("slide-out");
+                setTimeout(() => {
+                    nav.style.display = "none";
+                    document.querySelector(".content").style.filter = "none";
+                    nav.classList.remove("slide-out");
+                }, 250);
+            };
+        </script>
+        <nav class="nav">
+            <ul>
+                <li data-link="/"><span>Home</span><i class="fa-solid fa-house"></i></li>
+                <li class="spacer">Pages</li>
+                <li data-link="/chatbot"><span>Chatbot</span><i class="fa-solid fa-message"></i></li>
+                <li data-link="/chatbot/customization"><span>Customization</span><i class="fa-solid fa-gear"></i></li>
+                <li data-link="/ask.html"><span>Classic</span><i class="fa-solid fa-microchip"></i></li>
+                <li class="spacer">Socials</li>
+                <li data-link="https://discord.gg/epBXp5hHBQ"><span>Discord</span><i class="fa-brands fa-discord"></i></li>
+            </ul>
+        </nav>
+    <center class=content>
       <h1 class="jetbrains-mono">Brainbase</h1>
       <p data-m="reveal-right" style="box-sizing:border-box;border:3px solid white;border-radius:1.5px;" id="ques"><h2>Question Asked</h2>${question}</p><br>
       <p data-m="reveal-right" style="box-sizing:border-box;border:3px solid white;border-radius:1.5px;" id="answer"><h2>The Result</h2>${realAnswer.replaceAll("\n", "<br>")}</p><br>
       <button class="collapsible">See Advanced Details</button>
-      <div class="content">
+      <div class="content2">
         <a>Object: ${jsonAnswer.object}</a><br>
         <a>Model Used: ${jsonAnswer.model}</a><br>
         <a>Finish Reason: ${jsonAnswer.choices[0].finish_reason}</a><br>
@@ -64,6 +105,15 @@ for (i = 0; i < coll.length; i++) {
   });
 }
 </script>
+        <script>
+            var buttons = document.querySelectorAll(".nav ul li:not(.spacer)");
+            buttons.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    window.location.href = btn.dataset.link;
+                });
+            });
+        </script>
+        <script src="Public.js"></script>
   </body>
   </html>
   `;
