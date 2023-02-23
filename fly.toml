@@ -1,4 +1,4 @@
-# fly.toml file generated for brainbase on 2023-02-22T17:34:39-08:00
+# fly.toml file generated for brainbase on 2023-02-22T17:45:55-08:00
 
 app = "brainbase"
 kill_signal = "SIGINT"
@@ -28,7 +28,7 @@ processes = []
   [[services.ports]]
     force_https = true
     handlers = ["http"]
-    port = 3000
+    port = 80
 
   [[services.ports]]
     handlers = ["tls", "http"]
