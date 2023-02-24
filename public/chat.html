@@ -11,32 +11,6 @@
     <body>
         <div class="menu-icon"><i class="fa-solid fa-bars"></i></div>
         <div class="close-icon"><i class="fa-solid fa-x"></i></div>
-        <script>
-            var menuIcon = document.querySelector(".menu-icon");
-            var closeIcon = document.querySelector(".close-icon");
-            menuIcon.onclick = () => {
-                closeIcon.style.display = "block";
-                var nav = document.querySelector(".nav");
-                nav.style.display = "block";
-                document.querySelector(".content").style.filter = "blur(4px)";
-                setTimeout(() => {
-                    nav.classList.add("slide-in");
-                }, 10);
-            };
-            closeIcon.onclick = () => {
-                closeIcon.style.display = "none";
-                var nav = document.querySelector(".nav");
-                nav.style.display = "none";
-                document.querySelector(".content").style.filter = "none";
-                nav.classList.remove("slide-in");
-                nav.classList.add("slide-out");
-                setTimeout(() => {
-                    nav.style.display = "none";
-                    document.querySelector(".content").style.filter = "none";
-                    nav.classList.remove("slide-out");
-                }, 250);
-            };
-        </script>
 
         <nav class="nav">
             <ul>
@@ -68,7 +42,7 @@
                 <input type="checkbox" id="long" />Allow longer content than two sentences.<br />
               </div>
               <div class="right-child">
-                <button class=big onclick="addOn()">Send<i class="fa-duotone fa-paper-plane"></i></button><br />
+                <button class=big onclick="addOn()">Send<i class="fa-solid fa-paper-plane"></i></button><br />
               </div>
             </div>
             <div class="split-three">
@@ -77,7 +51,7 @@
                 <button onclick="loadConvo()"><a>Load <i class="fa-duotone fa-upload"></i></a></button><br />
               </div>
               <div class="s3-middle-child">
-                <button onclick="deleteConvo()"><a>Delete Saved Convo <i class="fa-duotone fa-circle-xmark"></i></a></button><br />
+                <button onclick="deleteConvo()"><a>Delete Saved <i class="fa-solid fa-circle-xmark"></i></a></button><br />
               </div>
               <div class="s3-right-child">
                 <button onclick="window.location.href='/chatbot/customization'"><a>Customization <i class="fa-duotone fa-paintbrush-pencil"></i></a></button><br />

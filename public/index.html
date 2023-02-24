@@ -14,32 +14,6 @@
     <body>
         <div class="menu-icon"><i class="fa-solid fa-bars"></i></div>
         <div class="close-icon"><i class="fa-solid fa-x"></i></div>
-        <script>
-            var menuIcon = document.querySelector(".menu-icon");
-            var closeIcon = document.querySelector(".close-icon");
-            menuIcon.onclick = () => {
-                closeIcon.style.display = "block";
-                var nav = document.querySelector(".nav");
-                nav.style.display = "block";
-                document.querySelector(".content").style.filter = "blur(4px)";
-                setTimeout(() => {
-                    nav.classList.add("slide-in");
-                }, 10);
-            };
-            closeIcon.onclick = () => {
-                closeIcon.style.display = "none";
-                var nav = document.querySelector(".nav");
-                nav.style.display = "none";
-                document.querySelector(".content").style.filter = "none";
-                nav.classList.remove("slide-in");
-                nav.classList.add("slide-out");
-                setTimeout(() => {
-                    nav.style.display = "none";
-                    document.querySelector(".content").style.filter = "none";
-                    nav.classList.remove("slide-out");
-                }, 250);
-            };
-        </script>
         <nav class="nav">
             <ul>
                 <li data-link="/"><span>Home</span><i class="fa-solid fa-house"></i></li>
