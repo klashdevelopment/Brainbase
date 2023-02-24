@@ -25,10 +25,10 @@ const clone = function() {
   console.log("FexPress: clone made");
   return {
     use(instance) {
-      console.log("FexPress app has USED " + JSON.stringify(instance));
+      console.log("FexPress: app has USED " + JSON.stringify(instance));
     },
     get(endpoint, callback) {
-      console.log("FexPress GET request saved.");
+      console.log("FexPress: GET request saved.");
       gets.push({ endpoint, callback });
     },
     FEXHandle(endpoint) {
@@ -39,19 +39,17 @@ const clone = function() {
       }
     },
     listen(port) {
-      console.log("FexPress isn't listening on " + port);
-      console.log("Testing all handlers now!");
-      console.log('');
+      console.log("FexPress: Is not listening on " + port);
+      console.log("FexPress: Testing all handlers now!");
       for (var ep of gets) {
         console.log("Handling " + ep.endpoint + " below:")
         this.FEXHandle(ep.endpoint);
-        console.log('');
       }
     }
   }
 }
 clone.static = (dir) => {
-  console.log("FexPress STATIC created for '" + dir + "'");
+  console.log("FexPress: STATIC created for '" + dir + "'");
   return { dirname: dir };
 }
 clone.fakes = {
