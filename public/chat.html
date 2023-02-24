@@ -61,14 +61,28 @@
             </ul>
             <br />
             <textarea placeholder="Reply..." rows="1" id="question" type="text"></textarea><br />
-            <input type="checkbox" id="slang" placeholder="" />Enable slang/act as if you were texting it<br />
-            <input type="checkbox" id="innap" checked="true" />Block bad content (ex. swearing)<br />
-            <input type="checkbox" id="long" />Allow longer content than two sentences.<br />
-            <button class=big onclick="addOn()">Send<i class="fa-duotone fa-paper-plane"></i></button><br />
-            <button onclick="saveConvo()"><a>Save <i class="fa-duotone fa-download"></i></a></button>
-            <button onclick="loadConvo()"><a>Load <i class="fa-duotone fa-upload"></i></a></button><br />
-            <button onclick="deleteConvo()"><a>Delete Saved Convo <i class="fa-duotone fa-circle-xmark"></i></a></button><br />
-            <button onclick="window.location.href='/chatbot/customization'"><a>Customization <i class="fa-duotone fa-paintbrush-pencil"></i></a></button><br />
+            <div class="parent">
+              <div class="left-child">
+                <input type="checkbox" id="slang" placeholder="" />Enable slang/act as if you were texting it<br />
+                <input type="checkbox" id="innap" checked="true" />Block bad content (ex. swearing)<br />
+                <input type="checkbox" id="long" />Allow longer content than two sentences.<br />
+              </div>
+              <div class="right-child">
+                <button class=big onclick="addOn()">Send<i class="fa-duotone fa-paper-plane"></i></button><br />
+              </div>
+            </div>
+            <div class="split-three">
+              <div class="s3-left-child">
+                <button onclick="saveConvo()"><a>Save <i class="fa-duotone fa-download"></i></a></button>
+                <button onclick="loadConvo()"><a>Load <i class="fa-duotone fa-upload"></i></a></button><br />
+              </div>
+              <div class="s3-middle-child">
+                <button onclick="deleteConvo()"><a>Delete Saved Convo <i class="fa-duotone fa-circle-xmark"></i></a></button><br />
+              </div>
+              <div class="s3-right-child">
+                <button onclick="window.location.href='/chatbot/customization'"><a>Customization <i class="fa-duotone fa-paintbrush-pencil"></i></a></button><br />
+              </div>
+            </div>
         </center>
         <script>
           var helper = {
