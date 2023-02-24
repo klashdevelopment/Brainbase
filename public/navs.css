@@ -7,6 +7,17 @@ body {
   
 }
 
+code {
+    background-color: #565656;
+    color: white;
+    font-family: 'JetBrains Mono';
+    font-size: 13px;
+    padding: 1.5px;
+    border-radius: 5px;
+    margin: 2px;
+    box-sizing: border-box;
+}
+
 ::-webkit-scrollbar-track {
     background-color: #0e0c1d;
 }
