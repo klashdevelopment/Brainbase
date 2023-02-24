@@ -9,41 +9,45 @@ ul.chat li {
     margin-right: 30px;
     margin-bottom: 8px;
 }
-.parent {
-    margin: 0 15vw;
-    display: flex;
+@media only screen and (min-width: 1145px) {
+    .parent {
+        margin: 0 15vw;
+        display: flex;
+    }
+    
+    .left-child {
+        width: 50%;
+        text-align: left;
+    }
+    
+    .right-child {
+        width: 50%;
+        text-align: right;
+    }
+    
+    .split-three {
+        margin: 0 15vw;
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid lightblue;
+        margin-top: 65px;
+      }
+      
+      .s3-left-child {
+        flex: 1;
+        text-align: left;
+      }
+      
+      .s3-middle-child {
+        flex: 1;
+        text-align: center;
+      }
+      
+      .s3-right-child {
+        flex: 1;
+        text-align: right;
+      }
 }
-
-.left-child {
-    width: 50%;
-    text-align: left;
-}
-
-.right-child {
-    width: 50%;
-    text-align: right;
-}
-
-.split-three {
-    margin: 0 15vw;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .s3-left-child {
-    flex: 1;
-    text-align: left;
-  }
-  
-  .s3-middle-child {
-    flex: 1;
-    text-align: center;
-  }
-  
-  .s3-right-child {
-    flex: 1;
-    text-align: right;
-  }
 
 [type="text"] {
     width: 60%;
@@ -66,3 +70,9 @@ ul.chat li.titleBar {
     margin-right: 30px;
     margin-bottom: 8px;
 }
+
+/* @media only screen and (max-width: 1150px) {
+    .s3-middle-child {
+        margin-left: 15px;
+    }
+} */
