@@ -220,12 +220,6 @@
                     .then((res) => res.json())
                     .then((jres) => handleResponse(jres));
             }
-            var buttons = document.querySelectorAll(".nav ul li:not(.spacer)");
-            buttons.forEach((btn) => {
-                btn.addEventListener("click", () => {
-                    window.location.href = btn.dataset.link;
-                });
-            });
         </script>
         <script src="Public.js"></script>
     </body>

@@ -87,12 +87,6 @@ function OnInput() {
   this.style.height = 0;
   this.style.height = (this.scrollHeight) + "px";
 }
-  var buttons = document.querySelectorAll('.nav ul li:not(.spacer)');
-buttons.forEach(btn => {
-    btn.addEventListener('click', ()=>{
-        window.location.href = btn.dataset.link;
-    });
-});
   </script>
   <script src='Public.js'></script>
 </body>
