@@ -1,30 +1,36 @@
 var $ = document.querySelector;
 var $$= (q,c)=>{document.querySelectorAll(q).forEach(e=>c(e))};
 
-var menuIcon = document.querySelector(".menu-icon");
-var closeIcon = document.querySelector(".close-icon");
-menuIcon.onclick = () => {
-    closeIcon.style.display = "block";
-    var nav = document.querySelector(".nav");
-    nav.style.display = "block";
-    document.querySelector(".content").style.filter = "blur(4px)";
-    setTimeout(() => {
-        nav.classList.add("slide-in");
-    }, 10);
-};
-closeIcon.onclick = () => {
-    closeIcon.style.display = "none";
-    var nav = document.querySelector(".nav");
-    nav.style.display = "none";
-    document.querySelector(".content").style.filter = "none";
-    nav.classList.remove("slide-in");
-    nav.classList.add("slide-out");
-    setTimeout(() => {
-        nav.style.display = "none";
-        document.querySelector(".content").style.filter = "none";
-        nav.classList.remove("slide-out");
-    }, 250);
-};
+var menuIcon = document.querySelector('.menu-icon');
+var closeIcon = document.querySelector('.close-icon');
+var nav = document.querySelector('.nav');
+nav.outerHTML = `<nav class="nav">
+<ul>
+    <li data-link="/"><span>Home</span><i class='fa-solid fa-house'></i></li>
+    <li class="spacer">Pages</li>
+    <li data-link="/chatbot"><span>Chatbot</span><i class='fa-solid fa-message'></i></li>
+    <li data-link="/customization"><span>Customization</span><i class='fa-solid fa-gear'></i></li>
+    <li data-link="/ask.html"><span>Classic</span><i class='fa-solid fa-microchip'></i></li>
+    <li class="spacer">Socials</li>
+    <li data-link="https://discord.gg/epBXp5hHBQ"><span>Discord</span><i class='fa-brands fa-discord'></i></li>
+    <li data-link="/donate"><span>Donate</span><i class="fa-brands fa-usd"></i></li>
+</ul>
+</nav>`;
+var content = document.querySelector('.content');
+menuIcon.addEventListener('click', () => {
+  closeIcon.style['display'] = 'block';
+  menuIcon.style['display'] = 'none';
+  nav.style['transform'] = 'translateX(0)';
+  content.style['filter'] = 'blur(5px)';
+  content.style.pointerEvents = 'none';
+});
+closeIcon.addEventListener('click', () => {
+  closeIcon.style['display'] = 'none';
+  menuIcon.style['display'] = 'block';
+  nav.style['transform'] = 'translateX(-75vw)';
+  content.style['filter'] = 'none';
+  content.style.pointerEvents = 'auto';
+});
 
 var buttons = document.querySelectorAll(".nav ul li:not(.spacer)");
 buttons.forEach((btn) => {
