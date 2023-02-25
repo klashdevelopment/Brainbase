@@ -7,27 +7,14 @@
     <title>GPT Helper</title>
     <link href="https://gtml.gavingogamingrepl.repl.co/regular-ass-style.css" rel="stylesheet">
   <link href="https://unpkg.com/movement.css/movement.css" rel="stylesheet">
-  <style>
-    @import url('./navs.css');
-    [type="text"] {
-        width: 60%;
-        padding: 15px;
-        border-radius: 4px;
-        resize: none;
-        font-family: "Arial";
-        background-color: #303030;
-        color: white;
-        border-color: white;
-    }
-    input::placeholder {
-        font-size: 18px;
-    }
-  </style>
+  
+  <style>@import url('/chat.css');@import url('/navs.css');</style>
 </head>
 <body>
   
   <div class="menu-icon"><i class='fa-solid  fa-bars'></i></div>
   <div class="close-icon"><i class='fa-solid  fa-x'></i></div>
+  
     <nav class="nav">
         <ul>
             <li data-link="/"><span>Home</span><i class='fa-solid fa-house'></i></li>
@@ -41,28 +28,15 @@
         </ul>
     </nav>
   <center class='content'>
-    <h1>Brainbase: Vision</h1>
-    <h3><i>Brainbase with a pair of eyes.</i></h3>
-    <img src='/default.png' width=256 height=256 id=result><br>
-    <textarea id='ask' placeholder="Prompt..."></textarea><br>
-    <button id=imagen>Imagen It</button>
-    <script>
-      var result = document.querySelector('#result');
-      var at = document.querySelector('#ask');
-      async function handle(url) {
-        console.log(JSON.stringify(json));
-        result.src = json.url;
-      }
-      async function ask() {
-        result.src = '/loading.gif';
-        await fetch('/imagen?prompt='+at.value)
-        .then(res => res.json())
-        .then(async json => {
-          await handle(json.url);
-        });
-      }
-      document.querySelector('#imagen').addEventListener('click', ask);
-    </script>
+    <h1>Donate to Brainbase</h1>
+    <div class="options">
+        <button onclick="window.open('https://www.redbubble.com/shop/ap/110361609')">Buy Merch/Clothing<i class="fa-solid fa-tshirt"></i></button><br>
+        <button onclick="window.open('https://www.patreon.com/klashdevelopment')">Buy Membership<i class="fa-brands fa-patreon"></i></button><br>
+        <h3>Whats the difference?</h3>
+        <h4>Merch</h4> You support KlashDevelopment and get a physical piece of clothing in return!<br><br>
+        <h4>Membership</h4> Pay a monthy fee to keep KlashDevelopment online<br>and get early access products, discord support, priority, and extra features!
+    </div>
   </center>
+  <script src="Public.js" type="text/javascript"></script>
 </body>
 </html>

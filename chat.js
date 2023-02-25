@@ -5,13 +5,17 @@ function parseArray(array) {
 }
 function runchat(askGpt, app, askImagen) {
   app.use(bodyParser.json());
-  app.get('/chatbot/customization', (req, res) => {
-    res.type('text/html');
-    res.end(require('fs').readFileSync('public/customize.html', { encoding: 'utf-8' }));
+  app.get('/customization', (req, res) => {
+    res.send(require('fs').readFileSync('public/customize.html', { encoding: 'utf-8' }));
+    res.end();
+  });
+  app.get('/donate', (req, res) => {
+    res.send(require('fs').readFileSync('public/donate.html', { encoding: 'utf-8' }));
+    res.end();
   });
   app.get('/chatbot', (req, res) => {
-    res.type('text/html');
-    res.end(require('fs').readFileSync('public/chat.html', { encoding: 'utf-8' }));
+    res.send(require('fs').readFileSync('public/chat.html', { encoding: 'utf-8' }));
+    res.end();
   });
   app.get('/imagen/api', async(req,res)=>{
     var q = req.query.prompt;
