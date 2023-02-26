@@ -3,9 +3,7 @@ var $$= (q,c)=>{document.querySelectorAll(q).forEach(e=>c(e))};
 
 var menuIcon = document.querySelector('.menu-icon');
 var closeIcon = document.querySelector('.close-icon');
-var nav = document.querySelector('.nav');
-nav.outerHTML = `<nav class="nav">
-<ul>
+document.querySelector('.nav').innerHTML = `<ul>
     <li data-link="/"><span>Home</span><i class='fa-solid fa-house'></i></li>
     <li class="spacer">Modes</li>
     <li data-link="/multibot"><span>Multibot<img class=newtag height=30 src='/new-icon.png'></span><i class='fa-solid fa-user-robot'></i></li>
@@ -18,20 +16,19 @@ nav.outerHTML = `<nav class="nav">
     <li class="spacer">Older</li>
     <li data-link="/ask.html"><span>Classic</span><i class='fa-solid fa-microchip'></i></li>
     <li data-link="/boxgen"><span>Boxgen<img class=newtag height=30 src='/new-icon.png'></span><i class='fa-solid fa-scroll'></i></li>
-</ul>
-</nav>`;
+</ul>`;
 var content = document.querySelector('.content');
 menuIcon.addEventListener('click', () => {
   closeIcon.style['display'] = 'block';
   menuIcon.style['display'] = 'none';
-  nav.style['transform'] = 'translateX(0)';
+  document.querySelector('.nav').style['transform'] = 'translateX(0)';
   content.style['filter'] = 'blur(5px)';
   content.style.pointerEvents = 'none';
 });
 closeIcon.addEventListener('click', () => {
   closeIcon.style['display'] = 'none';
   menuIcon.style['display'] = 'block';
-  nav.style['transform'] = 'translateX(-75vw)';
+  document.querySelector('.nav').style['transform'] = 'translateX(-75vw)';
   content.style['filter'] = 'none';
   content.style.pointerEvents = 'auto';
 });

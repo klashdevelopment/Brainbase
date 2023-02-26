@@ -29,7 +29,7 @@ function runchat(askGpt, app, oai) {
     res.send(require('fs').readFileSync('public/boxgen.html', { encoding: 'utf-8' }));
     res.end();
   });
-  app.get('/multibot/responses/generate', async(req, res) => {
+  app.use('/multibot/responses/generate', async(req, res) => {
     try {
       res.type('text/json');
       var GPTR = await askGpt(`I want you (${req.query.character}) to be a friend to a person. Pretend you have already had this conversation with a person:
