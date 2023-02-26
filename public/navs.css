@@ -78,7 +78,7 @@ code {
     width: 20%;
     background-color: #222222;
     height: 100vh;
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     z-index: 9999;
