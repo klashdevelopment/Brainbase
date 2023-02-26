@@ -8,8 +8,8 @@ nav.outerHTML = `<nav class="nav">
 <ul>
     <li data-link="/"><span>Home</span><i class='fa-solid fa-house'></i></li>
     <li class="spacer">Modes</li>
-`//    <li data-link="/multibot"><span>Multibot<img class=newtag height=30 src='/new-icon.png'></span><i class='fa-solid fa-user-robot'></i></li>
-+`    <li data-link="/chatbot"><span>Chatbot</span><i class='fa-solid fa-message'></i></li>
+    <li data-link="/multibot"><span>Multibot<img class=newtag height=30 src='/new-icon.png'></span><i class='fa-solid fa-user-robot'></i></li>
+    <li data-link="/chatbot"><span>Chatbot</span><i class='fa-solid fa-message'></i></li>
     <li data-link="/customization"><span>Customization</span><i class='fa-solid fa-gear'></i></li>
     <li data-link="/vision"><span>Vision<img class=newtag height=30 src='/new-icon.png'></span><i class='fa-solid fa-glasses'></i></li>
     <li class="spacer">Socials</li>
@@ -17,6 +17,7 @@ nav.outerHTML = `<nav class="nav">
     <li data-link="/donate"><span>Donate</span><i class="fa-brands fa-usd"></i></li>
     <li class="spacer">Older</li>
     <li data-link="/ask.html"><span>Classic</span><i class='fa-solid fa-microchip'></i></li>
+    <li data-link="/boxgen"><span>Boxgen<img class=newtag height=30 src='/new-icon.png'></span><i class='fa-solid fa-scroll'></i></li>
 </ul>
 </nav>`;
 var content = document.querySelector('.content');
@@ -41,3 +42,15 @@ buttons.forEach((btn) => {
         window.location.href = btn.dataset.link;
     });
 });
+// const txl = document.querySelectorAll("textarea.adjusting");
+// txl.forEach(tx=>{
+//   for (let i = 0; i < tx.length; i++) {
+//     tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
+//     tx[i].addEventListener("input", OnInput, false);
+//   }
+  
+//   var OnInput = ()=>{
+//     tx.style.height = 0;
+//     tx.style.height = (this.scrollHeight) + "px";
+//   }
+// })

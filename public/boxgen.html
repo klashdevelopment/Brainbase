@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT Helper</title>
+    <link href="https://gtml.gavingogamingrepl.repl.co/regular-ass-style.css" rel="stylesheet">
+  <link href="https://unpkg.com/movement.css/movement.css" rel="stylesheet">
+  <style>@import url('/chat.css');@import url('/navs.css');</style>
+</head>
+<body>
+  
+  <div class="menu-icon"><i class='fa-solid  fa-bars'></i></div>
+  <div class="close-icon"><i class='fa-solid  fa-circle-xmark'></i></div>
+    <nav class="nav"></nav>
+  <center class='content'>
+    <h1>Boxgen</h1>
+    <h4>Boxgen is a classic-like generator that you can modify the result of, and then continue.</h4>
+    <textarea class="adjusting" type="text">Write a tagline for an ice cream shop.</textarea>
+    <br>
+    <button id="write">Write</button>
+  </center>
+  <script>
+    document.querySelector('#write').addEventListener('click', ()=>{
+      var params = { question: document.querySelector('textarea').value };
+      fetch("/api?completing", {
+                        method: "POST",
+                        body: JSON.stringify(params),
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    })
+                    .then((res) => res.json())
+                    .then(json => {
+                      document.querySelector('textarea').value += '\n'+json.choices[0].text;
+                      OnInput();
+                    });
+    });
+    var tx = document.querySelector('textarea');
+    tx.style.height= (tx.scrollHeight)+'px';
+    tx.style.overflowY='hidden';
+    tx.oninput = OnInput;
+    
+    function OnInput() {
+      this.style.height = 0;
+      this.style.height = (this.scrollHeight) + "px";
+    }
+  </script>
+  <script src="Public.js"></script>
+</body>
+</html>
