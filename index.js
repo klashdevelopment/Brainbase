@@ -39,29 +39,6 @@ async function run() {
     fs.writeFile((isChatted ? 'chats.json' : 'queries.json'), JSON.stringify(orig), 'utf8', () => { console.log("Brainbase has been used"); });
     return response.data;
   }
-  async function askIMG(question) {
-    const response = await openai.createCompletion({
-      prompt: question,
-      n: 1,
-      size: "256x256",
-    });
-    
-    var fs = require('fs');
-    var orig = JSON.parse(fs.readFileSync('images.json', { encoding: 'utf-8' }));
-    let currentDate = new Date();
-    let cDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
-    let cTime = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
-    let dateTime = cDate + ' ' + cTime;
-    orig.push({
-      question: question,
-      response: response.data.data[0].url,
-      dateTime: "" + dateTime + ""
-    });
-    fs.writeFile('images.json', JSON.stringify(orig), 'utf8', () => { console.log("Brainbase has been used"); });
-    return {
-      url: response.data.data[0].url
-    };
-  }
 
   app.use(express.static('public')); // Serve files from the '/public' folder
 
@@ -120,7 +97,7 @@ async function run() {
     res.end(htmlres(answer, question)); // Write the answer to the screen
   })
 
-  chat(askGPT, app, askIMG);
+  chat(askGPT, app, openai);
 
   app.get('*', (req,res)=>{
     res.redirect('/');

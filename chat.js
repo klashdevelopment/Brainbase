@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 function parseArray(array) {
   return JSON.stringify(array);
 }
-function runchat(askGpt, app, askImagen) {
+function runchat(askGpt, app, oai) {
   app.use(bodyParser.json());
   app.get('/customization', (req, res) => {
     res.send(require('fs').readFileSync('public/customize.html', { encoding: 'utf-8' }));
@@ -19,8 +19,26 @@ function runchat(askGpt, app, askImagen) {
   });
   app.get('/imagen/api', async(req,res)=>{
     var q = req.query.prompt;
-    var r = await askImagen(q);
-    res.end(r);
+    // var oai =new(require('openai').OpenAIApi)();
+    var r = await oai.createImage({
+      prompt:q,
+      response_format: 'url',
+      n: 1,
+      size: '256x256'
+    });
+    var fs = require('fs');
+    var orig = JSON.parse(fs.readFileSync('images.json', { encoding: 'utf-8' }));
+    let currentDate = new Date();
+    let cDate = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+    let cTime = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
+    let dateTime = cDate + ' ' + cTime;
+    orig.push({
+      question: q,
+      response: r.data.data[0].url,
+      dateTime: "" + dateTime + ""
+    });
+    fs.writeFile('images.json', JSON.stringify(orig), 'utf8', () => { console.log("Brainbase has been used"); });
+    res.end((await r).data.data[0].url);
   });
   app.use('/chatbotresponse', async (req, res) => {
     try {

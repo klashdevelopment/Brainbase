@@ -39,15 +39,14 @@
       var result = document.querySelector('#result');
       var at = document.querySelector('#ask');
       async function handle(url) {
-        console.log(JSON.stringify(json));
-        result.src = json.url;
+        result.src = url;
       }
       async function ask() {
         result.src = '/loading.gif';
-        await fetch('/imagen?prompt='+at.value)
-        .then(res => res.json())
+        await fetch('/imagen/api?prompt='+at.value)
+        .then(res => res.text())
         .then(async json => {
-          await handle(json.url);
+          await handle(json);
         });
       }
       document.querySelector('#imagen').addEventListener('click', ask);
