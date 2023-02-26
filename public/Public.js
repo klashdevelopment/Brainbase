@@ -7,13 +7,15 @@ var nav = document.querySelector('.nav');
 nav.outerHTML = `<nav class="nav">
 <ul>
     <li data-link="/"><span>Home</span><i class='fa-solid fa-house'></i></li>
-    <li class="spacer">Pages</li>
+    <li class="spacer">Modes</li>
     <li data-link="/chatbot"><span>Chatbot</span><i class='fa-solid fa-message'></i></li>
     <li data-link="/customization"><span>Customization</span><i class='fa-solid fa-gear'></i></li>
-    <li data-link="/ask.html"><span>Classic</span><i class='fa-solid fa-microchip'></i></li>
+    <li data-link="/vision"><span>Vision<img class=newtag height=30 src='/new-icon.png'></span><i class='fa-solid fa-glasses'></i></li>
     <li class="spacer">Socials</li>
     <li data-link="https://discord.gg/epBXp5hHBQ"><span>Discord</span><i class='fa-brands fa-discord'></i></li>
     <li data-link="/donate"><span>Donate</span><i class="fa-brands fa-usd"></i></li>
+    <li class="spacer">Older</li>
+    <li data-link="/ask.html"><span>Classic</span><i class='fa-solid fa-microchip'></i></li>
 </ul>
 </nav>`;
 var content = document.querySelector('.content');

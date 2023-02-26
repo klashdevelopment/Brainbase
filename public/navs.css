@@ -106,6 +106,10 @@ code {
     align-self: flex-start;
     margin: 10 0px;
 }
+.newtag {
+    position: fixed;
+    margin-left: 5px;
+}
 .nav li.spacer {
     background: linear-gradient(
         to right,

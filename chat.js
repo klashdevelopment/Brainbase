@@ -17,6 +17,10 @@ function runchat(askGpt, app, oai) {
     res.send(require('fs').readFileSync('public/chat.html', { encoding: 'utf-8' }));
     res.end();
   });
+  app.get('/vision', (req, res) => {
+    res.send(require('fs').readFileSync('public/image.html', { encoding: 'utf-8' }));
+    res.end();
+  });
   app.get('/imagen/api', async(req,res)=>{
     var q = req.query.prompt;
     // var oai =new(require('openai').OpenAIApi)();
