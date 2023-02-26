@@ -8,7 +8,8 @@ nav.outerHTML = `<nav class="nav">
 <ul>
     <li data-link="/"><span>Home</span><i class='fa-solid fa-house'></i></li>
     <li class="spacer">Modes</li>
-    <li data-link="/chatbot"><span>Chatbot</span><i class='fa-solid fa-message'></i></li>
+`//    <li data-link="/multibot"><span>Multibot<img class=newtag height=30 src='/new-icon.png'></span><i class='fa-solid fa-user-robot'></i></li>
++`    <li data-link="/chatbot"><span>Chatbot</span><i class='fa-solid fa-message'></i></li>
     <li data-link="/customization"><span>Customization</span><i class='fa-solid fa-gear'></i></li>
     <li data-link="/vision"><span>Vision<img class=newtag height=30 src='/new-icon.png'></span><i class='fa-solid fa-glasses'></i></li>
     <li class="spacer">Socials</li>

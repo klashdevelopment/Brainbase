@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT Helper</title>
+    <link href="https://gtml.gavingogamingrepl.repl.co/regular-ass-style.css" rel="stylesheet">
+  <link href="https://unpkg.com/movement.css/movement.css" rel="stylesheet">
+  <style>@import url('/chat.css');@import url('/navs.css');</style>
+</head>
+<body>
+  <div class="menu-icon"><i class='fa-solid  fa-bars'></i></div>
+  <div class="close-icon"><i class='fa-solid  fa-circle-xmark'></i></div>
+    <nav class="nav"></nav>
+  <center class='content'>
+    <h2>Hello, I'm <i><b contenteditable="true" spellcheck="false" class="username">Brainbase</b><i class="fa-margin fa-light fa-i-cursor"></i></i></h>
+      <div class="parent">
+        <div class="left-child">
+          <img src='/default.png' width=256 height=256 id=result><br>
+          <textarea type="text" id='ask' placeholder="AI Friend's Profile..."></textarea><br>
+          <button id=imagen>Update Character</button>
+        </div>
+        <div class="right-child">
+          
+        </div>
+      </div>
+    </center>
+  <script src="Public.js"></script>
+  <script>
+    setInterval(()=>{
+      window.localStorage.setItem('brainbaseMultibotName', document.querySelector('.username').innerText);
+    });
+  </script>
+  <script>
+    var result = document.querySelector('#result');
+    var at = document.querySelector('#ask');
+    async function handle(url) {
+      result.src = url;
+    }
+    async function ask() {
+      result.src = '/loading.png';
+      window.localStorage.setItem('brainbaseMultibotProfile', document.querySelector('#ask').value);
+      await fetch('/imagen/api?prompt='+at.value)
+      .then(res => res.text())
+      .then(async json => {
+        await handle(json);
+      });
+    }
+    document.querySelector('#imagen').addEventListener('click', ask);
+  </script>
+</body>
+</html>

@@ -110,6 +110,15 @@ code {
     position: fixed;
     margin-left: 5px;
 }
+.username {
+    padding: 2px;
+    border: 1px solid white;
+    border-radius: 5px;
+    cursor: text;
+}
+.fa-margin {
+    margin-left:10px;
+}
 .nav li.spacer {
     background: linear-gradient(
         to right,
