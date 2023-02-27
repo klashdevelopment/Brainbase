@@ -1,21 +1,22 @@
 var $ = document.querySelector;
 var $$= (q,c)=>{document.querySelectorAll(q).forEach(e=>c(e))};
 
+var newIcon = ''; //<img class=newtag height=30 src='/new-icon.png'>
 var menuIcon = document.querySelector('.menu-icon');
 var closeIcon = document.querySelector('.close-icon');
 document.querySelector('.nav').innerHTML = `<ul>
     <li data-link="/"><span>Home</span><i class='fa-solid fa-house'></i></li>
-    <li class="spacer">Modes</li>
-    <li data-link="/multibot"><span>Multibot<img class=newtag height=30 src='/new-icon.png'></span><i class='fa-solid fa-user-robot'></i></li>
+    <li class="spacer blue">Modes</li>
+    <li data-link="/multibot"><span>Multibot${newIcon}</span><i class='fa-solid fa-user-robot'></i></li>
     <li data-link="/chatbot"><span>Chatbot</span><i class='fa-solid fa-message'></i></li>
     <li data-link="/customization"><span>Customization</span><i class='fa-solid fa-gear'></i></li>
-    <li data-link="/vision"><span>Vision<img class=newtag height=30 src='/new-icon.png'></span><i class='fa-solid fa-glasses'></i></li>
-    <li class="spacer">Socials</li>
+    <li data-link="/vision"><span>Vision${newIcon}</span><i class='fa-solid fa-glasses'></i></li>
+    <li class="spacer green">Socials</li>
     <li data-link="https://discord.gg/epBXp5hHBQ"><span>Discord</span><i class='fa-brands fa-discord'></i></li>
     <li data-link="/donate"><span>Donate</span><i class="fa-brands fa-usd"></i></li>
-    <li class="spacer">Older</li>
+    <li class="spacer red">Other</li>
+    <li data-link="/boxgen"><span>Boxgen${newIcon}</span><i class='fa-solid fa-scroll'></i></li>
     <li data-link="/ask.html"><span>Classic</span><i class='fa-solid fa-microchip'></i></li>
-    <li data-link="/boxgen"><span>Boxgen<img class=newtag height=30 src='/new-icon.png'></span><i class='fa-solid fa-scroll'></i></li>
 </ul>`;
 var content = document.querySelector('.content');
 menuIcon.addEventListener('click', () => {

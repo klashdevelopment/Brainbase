@@ -57,7 +57,7 @@ code {
 }
 
 .close-icon {
-    position: fixed;
+    position: absolute;
     right: 20px;
     top: 20px;
     z-index: 5;
@@ -66,7 +66,7 @@ code {
     cursor: pointer;
 }
 .menu-icon {
-    position: fixed;
+    position: absolute;
     left: 20px;
     scale: 1.5;
     top: 20px;
@@ -78,7 +78,7 @@ code {
     width: 20%;
     background-color: #222222;
     height: 100vh;
-    position: relative;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 9999;
@@ -93,7 +93,7 @@ code {
 .nav li:not(.spacer) {
     background-color: #333;
     padding: 16px;
-    width: 20vw;
+    width: calc(20vw - 4.0px);
     margin-top: 10px;
     background-size: 200%;
     box-sizing: border-box;
@@ -107,7 +107,7 @@ code {
     margin: 10 0px;
 }
 .newtag {
-    position: fixed;
+    position: sticky;
     margin-left: 5px;
 }
 .username {
@@ -119,17 +119,53 @@ code {
 .fa-margin {
     margin-left:10px;
 }
-.nav li.spacer {
+.nav li.spacer.blue {
     background: linear-gradient(
         to right,
         #1A1A1A,
         #4082de,
         #1A1A1A
     );
+}
+.nav li.spacer.green {
+    background: linear-gradient(
+        to right,
+        #1A1A1A,
+        #40de40,
+        #1A1A1A
+    );
+}
+.nav li.spacer.purpl {
+    background: linear-gradient(
+        to right,
+        #1A1A1A,
+        #be40de,
+        #1A1A1A
+    );
+}
+.nav li.spacer.aqua {
+    background: linear-gradient(
+        to right,
+        #1A1A1A,
+        #40de94,
+        #1A1A1A
+    );
+}
+.nav li.spacer.red {
+    background: linear-gradient(
+        to right,
+        #1A1A1A,
+        #ea3d3d,
+        #1A1A1A
+    );
+}
+.nav li.spacer {
     color:white;
+    /* font-family: 'JetBrains Mono'; */
+    font-family: "Roboto";
     text-shadow: black 0 0 4px;
     padding: 10px;
-    width: 20vw;
+    width: calc(20vw - 4.0px);
     margin-top: 10px;
     box-sizing: border-box;
     transition: all 0.25s ease;
@@ -152,9 +188,9 @@ code {
 .nav li span {
     margin-right: auto;
 }
-.nav li i {
-    margin-left: 16px;
-}
+/* .nav li i {
+    margin-left: 8px;
+} */
 .nav li:not(.spacer):hover {
     cursor: pointer;
     text-shadow: #333 1px 6px 10px;
