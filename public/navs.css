@@ -6,28 +6,6 @@ body {
     scroll-behavior: smooth;
 }
 
-code {
-    background-color: #565656;
-    color: white;
-    font-family: 'JetBrains Mono';
-    font-size: 13px;
-    padding: 1.5px;
-    border-radius: 5px;
-    margin: 2px;
-    box-sizing: border-box;
-}
-
-::-webkit-scrollbar-track {
-    background-color: #0e0c1d;
-}
-::-webkit-scrollbar-thumb {
-    background-color: rgba(0,150,175,150);
-    border-radius: 10px;
-}
-::-webkit-scrollbar {
-    width: 20px;
-}
-
 @media only screen and (max-width: 856px) {
     .nav {
         width: 70% !important;
@@ -77,7 +55,9 @@ code {
     float: left;
     width: 20%;
     background-color: #222222;
+    background-attachment: fixed;
     height: 100vh;
+    overflow: auto; 
     position: absolute;
     top: 0;
     left: 0;
