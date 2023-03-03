@@ -209,6 +209,15 @@
                     .then((res) => res.json())
                     .then((jres) => handleResponse(jres));
             }
+            document.querySelector('#question').addEventListener('keydown', function(event) {
+              if (event.shiftKey && event.keyCode === 13) {
+                // Add a new line
+                this.value += '\n';
+              } else if (event.keyCode === 13) {
+                // Call your function
+                addOn();
+              }
+            });
         </script>
         <script src="Public.js"></script>
     </body>
