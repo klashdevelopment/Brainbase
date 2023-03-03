@@ -9,6 +9,9 @@ async function run() {
   const htmlerrorpage = require('./htmlerrorpage');
   const htmlres = require('./htmlres');
   const chat = require('./chat');
+  if(process.env.API_KEY == undefined || process.env.API_KEY == null) {
+    console.error("add API_KEY in .env!");
+  }
   const config = new Configuration({
     apiKey: process.env.API_KEY
   })
@@ -40,6 +43,7 @@ async function run() {
     }
     return response.data;
   }
+
 
   app.use(express.static('public')); // Serve files from the '/public' folder
 
@@ -92,8 +96,8 @@ async function run() {
       res.end(htmlerrorpage(JSON.stringify(exc)));
     }
     res.end(htmlres(answer, question)); // Write the answer to the screen
-  })
-
+  });
+  
   chat(askGPT, app, openai);
 
   app.get('*', (req,res)=>{

@@ -6,9 +6,9 @@ var menuIcon = document.querySelector('.menu-icon');
 var closeIcon = document.querySelector('.close-icon');
 document.querySelector('.nav').innerHTML = `<ul>
     <li data-link="/"><span>Home</span><i class='fa-solid fa-house'></i></li>
-    <li class="spacer blue">Modes</li>
-    <li data-link="/multibot"><span>Multibot${newIcon}</span><i class='fa-solid fa-user-robot'></i></li>
-    <li data-link="/chatbot"><span>Chatbot</span><i class='fa-solid fa-message'></i></li>
+    <li class="spacer blue">Modes</li>`+
+    // <li data-link="/multibot"><span>Multibot${newIcon}</span><i class='fa-solid fa-user-robot'></i></li>
+   `<li data-link="/chatbot"><span>Chatbot</span><i class='fa-solid fa-message'></i></li>
     <li data-link="/customization"><span>Customization</span><i class='fa-solid fa-gear'></i></li>
     <li data-link="/vision"><span>Vision${newIcon}</span><i class='fa-solid fa-glasses'></i></li>
     <li class="spacer green">Socials</li>
