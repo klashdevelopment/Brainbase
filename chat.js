@@ -29,22 +29,6 @@ function runchat(askGpt, app, oai) {
     res.send(require('fs').readFileSync('public/boxgen.html', { encoding: 'utf-8' }));
     res.end();
   });
-  app.use('/multibot/responses/generate', async(req, res) => {
-    try {
-      res.type('text/json');
-      var messageHistory = [];
-      for(var history1 of req.body.history) {
-        messageHistory.push({user: history1.person == "Brainbase" ? 'assistant' : 'user', content: history1.answer});
-      }
-      var GPTR = await askChat(req.query.question, `You are ChatGPT, a large language model and chatbot trained and made by KlashDevelopment. Your lead developer is GavinGoGaming. Answer as concisely as possible. Knowledge cutoff: September 2021. Current date: ${new Date().toDateString()}.
-Personality: ${req.query.person}. ${req.query.slang ? 'Use gen-z talk and slang as much as possible. (ex. "yo wsup! how can i help ya" INSTEAD of "Hello there! How can I assist you today?")' : ''}
-You are to be a ${req.query.character}. ${req.query.short ? 'You are to respond with short messages (1-2 sentences), no explanations.' : ''}`, messageHistory);
-      res.json({answer: GPTR});
-    } catch (exc) {
-      console.error(exc);
-      res.json({ 'isError': true, 'error': exc });
-    }
-  });
   app.get('/imagen/api', async(req,res)=>{
     var q = req.query.prompt;
     // var oai =new(require('openai').OpenAIApi)();
@@ -75,7 +59,7 @@ You are to be a ${req.query.character}. ${req.query.short ? 'You are to respond 
         role: 'system',
         content: `You are Brainbase, a large language model and chatbot trained and made by KlashDevelopment. Your lead developer is GavinGoGaming. Answer as concisely as possible. Knowledge cutoff: September 2021. Current date: ${new Date().toDateString()}.
 Personality: ${req.query.person == undefined ? 'smart, funny, friendly' : req.query.person}.
-IF you are sending a code block, DO NOT put the language next to the triple-backtick. ${req.query.slang ? 'Use gen-z talk and slang as much as possible.' : ''}
+IF you are sending a code block, DO NOT put the language next to the triple-backtick. ${req.query.slang ? 'From now on, use slang, gen-z-like, and lowercase.' : ''}
 You are to be a ${req.query.character == undefined ? 'human' : req.query.character}. ${req.query.short ? 'You are to respond with short messages (1-2 sentences), no explanations UNLESS asked to.' : 'Try to explain as much as possible and respond with long content.'}`
       }];
       for(var history1 of req.body.history) {
