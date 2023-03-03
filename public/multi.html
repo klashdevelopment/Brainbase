@@ -15,12 +15,13 @@
     <nav class="nav"></nav>
   <center class='content'>
     <h2>Hello, I'm <i><b contenteditable="true" spellcheck="false" class="username">Brainbase</b><i class="fa-margin fa-light fa-i-cursor"></i></i></h2>
-      <div class="parent">
-        <div class="left-child">
+    <h4>coming soon</h4>  
+    <div class="parent">
+        <!-- <div class="left-child">
           <img src='/default.png' width=256 height=256 id=result><br>
           <textarea type="text" id='ask' placeholder="AI Friend's Profile..."></textarea><br>
           <button id=imagen>Update Character</button>
-        </div>
+        </div> -->
         <style>
           @media only screen and (max-width: 1145px) {
             .chatarea {
@@ -40,7 +41,7 @@
           }
         </style>
         <div class="right-child chatarea">
-          <ul class="chat">
+          <!-- <ul class="chat">
             <li class='titleBar'>
                 <i class="fa-duotone fa-2x fa-brain-circuit"></i>
                 <b><a style='font-size:26px'>Texting</a></b>
@@ -53,201 +54,9 @@
               <input type="checkbox" id="innap" checked="true" />Block bad content (ex. swearing)<br />
               <input type="checkbox" id="long" />Allow longer content than two sentences.<br />
               <button class=big onclick="addOn()">Send<i class="fa-solid fa-paper-plane"></i></button><br />
-        </div>
+        </div> -->
       </div>
     </center>
   <script src="Public.js"></script>
-  <script>
-    setInterval(()=>{
-      window.localStorage.setItem('brainbaseMultibotName', document.querySelector('.username').innerText);
-    }, 600);
-  </script>
-  <script>
-    var result = document.querySelector('#result');
-    var at = document.querySelector('#ask');
-    async function handle(url) {
-      result.src = url;
-      window.localStorage.setItem('brainbaseMultibotProfile', url);
-    }
-    function metadataLoad(){
-      if(window.localStorage.getItem('brainbaseMultibotName') != null) {
-        document.querySelector('.username').innerText = window.localStorage.getItem('brainbaseMultibotName');
-      }
-      if(window.localStorage.getItem('brainbaseMultibotProfile') != null) {
-        result.src = window.localStorage.getItem('brainbaseMultibotProfile');
-      }
-    }
-    async function ask() {
-      result.src = '/loading.png';
-      await fetch('/imagen/api?prompt='+at.value)
-      .then(res => res.text())
-      .then(async json => {
-        await handle(json);
-      });
-    }
-    document.querySelector('#imagen').addEventListener('click', ask);
-    metadataLoad();
-  </script>
-        <script>
-          var helper = {
- // Remove and return the first occurrence
-
- remove: function(array, predicate) {
-  for (var i = 0; i < array.length; i++) {
-   if (predicate(array[i])) {
-    return array.splice(i, 1);
-   }
-  }
- },
-
- // Remove and return all occurrences
-
- removeAll: function(array, predicate) {
-  var removed = [];
-
-  for (var i = 0; i < array.length; ) {
-   if (predicate(array[i])) {
-    removed.push(array.splice(i, 1));
-    continue;
-   }
-   i++;
-  }
-  return removed;
- },
-};
-            let history = [];
-            function saveConvo() {
-              var Format = `${JSON.stringify(history)}`;
-              if(window.localStorage.savedConversations==null||window.localStorage.savedConversations==''||window.localStorage.savedConversations==" "){
-                window.localStorage.savedConversations='[]';
-              }
-              var name = prompt("Name to save the conversation as?");
-              var savedCS = JSON.parse(window.localStorage.savedConversations);
-              savedCS.push({
-                name: name,
-                convo: Format
-              });
-              window.localStorage.savedConversations = JSON.stringify(savedCS);
-              alert("Saved!");
-            }
-
-            function deleteConvo() {
-              if(window.localStorage.savedConversations==null||window.localStorage.savedConversations==''||window.localStorage.savedConversations==" "){
-                window.localStorage.savedConversations='[]';
-              }
-              var convos = "";
-              for(var CV of JSON.parse(window.localStorage.savedConversations)) {
-                convos += "\n"+CV.name;
-              }
-              var name = prompt("Enter convo name out of these:"+convos, "");
-              var comp = false;
-              JSON.parse(window.localStorage.savedConversations).forEach(item => {
-                if(item.name === name) {
-                  var osc = JSON.parse(window.localStorage.savedConversations);
-                  var remmed = helper.removeAll(osc, it=>it.name.startsWith(item.name));
-                  window.localStorage.savedConversations = JSON.stringify(osc);
-                  comp = true;
-                  alert('Removed');
-                }
-              });
-              if(!comp) alert("Couldnt find that one.");
-            }
-            function loadConvo() {
-              if(window.localStorage.savedConversations==null||window.localStorage.savedConversations==''||window.localStorage.savedConversations==" "){
-                window.localStorage.savedConversations='[]';
-              }
-              var convos = "";
-              for(var CV of JSON.parse(window.localStorage.savedConversations)) {
-                convos += "\n"+CV.name;
-              }
-              var name = prompt("Enter convo name out of these:"+convos, "");
-              var comp = false;
-              JSON.parse(window.localStorage.savedConversations).forEach(item => {
-                if(item.name === name) {
-                  history = JSON.parse(item.convo);
-                  var chatList = document.querySelector('.chat');
-                  var content = `<ul class="chat">
-                <li class='titleBar'>
-                    <i class="fa-duotone fa-2x fa-brain-circuit"></i>
-                    <b><a style='font-size:26px'>Brainbase - Chat</a></b>
-                    <i class="fa-duotone fa-user fa-2x"></i>
-                </li>`;
-                  for(var hI of history) {
-                    content += `<li><center><div style="text-align:left;"><i class='fa-duotone fa-${hI.person == 'Brainbase' ? 'brain-circuit' : 'user'}' style='scale:1.3;'></i> <a style='margin-left:1${hI.person == 'Brainbase' ? '0' : '2'}px;'>${hI.answer}</a></div></center></li>`;
-                  }
-                  content += `</ul>`
-                  chatList.outerHTML = content;
-                  alert("Loaded!");
-                  comp = true;
-                }
-              });
-              if(!comp) alert("Not found.");
-            }
-            function handleResponse(jres) {
-                if (jres.isError) {
-                    document.body.innerHTML = JSON.stringify(jres);
-                }
-                history.push({
-                  answer: jres.answer,
-                  person: 'Brainbase'
-                });
-                for (var l of jres.answer.split(">/>")) {
-                    document
-                        .querySelector(".chat")
-                        .insertAdjacentHTML(
-                            "beforeend",
-                            `<li><center><div style="text-align:left;"><i class='fa-duotone fa-brain-circuit' style='scale:1.3;'></i> <a style='margin-left:10px;'>${l.replaceAll("\\n", "<br>")}</a></div></center></li>`
-                        );
-                }
-            }
-            function formatHistory() {
-              var historyF = "";
-              for(var h of history) {
-                historyF += h.person + ": " + h.answer + "\n"
-              }
-              return historyF;
-            }
-            function question() {
-                var v = document.querySelector("#question").value;
-                document.querySelector("#question").value = "";
-                return v;
-            }
-            function addOn() {
-                var q = question();
-                var slang = document.querySelector("#slang").checked;
-                var long = document.querySelector("#long").checked;
-                var swear = document.querySelector("#innap").checked;
-                if (q == null || q == "" || q == " ") {
-                    return;
-                }
-                document
-                    .querySelector(".chat")
-                    .insertAdjacentHTML("beforeend", `<li><div style="text-align:left;"><i class='fa-duotone fa-user' style='scale:1.3;'></i> <a style='margin-left:12px;'>${q.replaceAll("\n", "<br>")}</a></div></li>`);
-                history.push({answer: q, person: 'Human'});
-                const params = { history: formatHistory() };
-                fetch(
-                    "/multibot/responses/generate" +
-                        "?question=" +
-                        q +
-                        "" +
-                        (slang ? "&slang=true" : "&slang=f") +
-                        "" +
-                        (swear ? "&swear=true" : "&swear=f") +
-                        "" +
-                        (long ? "&long=true" : "&long=f") +
-                        "&character=" +
-                        window.localStorage.getItem('brainbaseMultibotName'),
-                    {
-                        method: "POST",
-                        body: JSON.stringify(params),
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
-                )
-                    .then((res) => res.json())
-                    .then((jres) => handleResponse(jres));
-            }
-        </script>
 </body>
 </html>

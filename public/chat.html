@@ -24,7 +24,7 @@
                 </li>
             </ul>
             <br />
-            <textarea placeholder="Reply..." rows="1" id="question" type="text"></textarea><br />
+            <textarea placeholder="Reply..." id="question" type="text"></textarea><br />
             <div class="parent">
               <div class="left-child" style="margin-top: 10px;">
                 <input type="checkbox" id="slang" placeholder="" />Enable texting mode<br />
@@ -175,10 +175,10 @@
                 return v;
             }
             function addOn() {
-                var q = question();
+                var q = question().trim();
                 var slang = document.querySelector("#slang").checked;
                 var short = document.querySelector("#short").checked;
-                if (q == null || q == "" || q == " ") {
+                if (q.trim() == null || q.trim() == "" || q.trim() == " ") {
                     return;
                 }
                 document
@@ -212,11 +212,17 @@
             document.querySelector('#question').addEventListener('keydown', function(event) {
               if (event.shiftKey && event.keyCode === 13) {
                 // Add a new line
-                this.value += '\n';
+                // this.value += '\n';
               } else if (event.keyCode === 13) {
-                // Call your function
+                event.preventDefault();
                 addOn();
+                this.rows = 1;
+                this.rows = this.scrollHeight/20;
               }
+            });
+            document.querySelector('#question').addEventListener('input', function(event) {
+                this.rows = 1;
+                this.rows = this.scrollHeight/20;
             });
         </script>
         <script src="Public.js"></script>
