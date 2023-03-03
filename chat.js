@@ -37,7 +37,7 @@ function runchat(askGpt, app, oai) {
         messageHistory.push({user: history1.person == "Brainbase" ? 'assistant' : 'user', content: history1.answer});
       }
       var GPTR = await askChat(req.query.question, `You are ChatGPT, a large language model and chatbot trained and made by KlashDevelopment. Your lead developer is GavinGoGaming. Answer as concisely as possible. Knowledge cutoff: September 2021. Current date: ${new Date().toDateString()}.
-Personality: ${req.query.person}. ${req.query.slang ? 'Use gen-z talk and slang as much as possible.' : ''}
+Personality: ${req.query.person}. ${req.query.slang ? 'Use gen-z talk and slang as much as possible. (ex. "yo wsup! how can i help ya" INSTEAD of "Hello there! How can I assist you today?")' : ''}
 You are to be a ${req.query.character}. ${req.query.short ? 'You are to respond with short messages (1-2 sentences), no explanations.' : ''}`, messageHistory);
       res.json({answer: GPTR});
     } catch (exc) {
