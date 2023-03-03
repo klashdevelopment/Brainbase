@@ -75,6 +75,16 @@
   return removed;
  },
 };
+      function htmlDecode(input) {
+        const textArea = document.createElement("textarea");
+        textArea.innerHTML = input;
+        return textArea.value;
+      }
+      function htmlEncode(input) {
+        const textArea = document.createElement("textarea");
+        textArea.innerText = input;
+        return textArea.innerHTML.split("<br>").join("\n");
+      }
             let history = [];
             function saveConvo() {
               var Format = `${JSON.stringify(history)}`;
@@ -133,7 +143,7 @@
                     <i class="fa-duotone fa-user fa-2x"></i>
                 </li>`;
                   for(var hI of history) {
-                    content += `<li><center><div style="text-align:left;"><i class='fa-duotone fa-${hI.person == 'Brainbase' ? 'brain-circuit' : 'user'}' style='scale:1.3;'></i> <a style='margin-left:1${hI.person == 'Brainbase' ? '0' : '2'}px;'>${hI.answer.replaceAll(/```(.+)```/g, '<pre><code>$1</code></pre>').replaceAll(/`(.+)`/g, '<code class=nohighlight>$1</code>').replaceAll("\n", "<br>")}</a></div></center></li>`;
+                    content += `<li><center><div style="text-align:left;"><i class='fa-duotone fa-${hI.person == 'Brainbase' ? 'brain-circuit' : 'user'}' style='scale:1.3;'></i> <a style='margin-left:1${hI.person == 'Brainbase' ? '0' : '2'}px;'>${htmlEncode(hI.answer).replaceAll(/```(.+)```/g, '<pre><code>$1</code></pre>').replaceAll(/`(.+)`/g, '<code class=nohighlight>$1</code>').replaceAll("\n", "<br>")}</a></div></center></li>`;
                   }
                   content += `</ul>`
                   chatList.outerHTML = content;
@@ -157,7 +167,7 @@
                         .querySelector(".chat")
                         .insertAdjacentHTML(
                             "beforeend",
-                            `<li><center><div style="text-align:left;"><i class='fa-duotone fa-brain-circuit' style='scale:1.3;'></i> <a style='margin-left:10px;'>${l.replaceAll(/```([\s\S]+?)```/g, '<pre><code>$1</code></pre>').replaceAll("\n", "<br>")}</a></div></center></li>`
+                            `<li><center><div style="text-align:left;"><i class='fa-duotone fa-brain-circuit' style='scale:1.3;'></i> <a style='margin-left:10px;'>${htmlEncode(l).replaceAll(/```([\s\S]+?)```/g, '<pre><code>$1</code></pre>').replaceAll("\n", "<br>")}</a></div></center></li>`
                         );
                 }
                 hljs.highlightAll();
@@ -183,7 +193,7 @@
                 }
                 document
                     .querySelector(".chat")
-                    .insertAdjacentHTML("beforeend", `<li><div style="text-align:left;"><i class='fa-duotone fa-user' style='scale:1.3;'></i> <a style='margin-left:12px;'>${q.replaceAll("\n", "<br>")}</a></div></li>`);
+                    .insertAdjacentHTML("beforeend", `<li><div style="text-align:left;"><i class='fa-duotone fa-user' style='scale:1.3;'></i> <a style='margin-left:12px;'>${htmlEncode(q).replaceAll("\n", "<br>")}</a></div></li>`);
                 history.push({answer: q, person: 'Human'});
                 const params = { history: history };
                 fetch(

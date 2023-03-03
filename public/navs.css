@@ -57,12 +57,45 @@ body {
     background-color: #222222;
     background-attachment: fixed;
     height: 100vh;
-    overflow: auto; 
+    overflow: auto;
     position: absolute;
     top: 0;
     left: 0;
     z-index: 9999;
 }
+.toggle-switch {
+    width: 75px;
+    height: 35px;
+    background-color: #ccc;
+    border-radius: 25px;
+    position: relative;
+    transition: background 0.3s ease;
+    cursor:pointer;
+  }
+  
+  .toggle-knob {
+    width: 35px;
+    height: 35px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.3s ease;
+    cursor:pointer;
+  }
+  .toggle-switch[data-clicked=true] {
+    background-color: rgb(72, 216, 101);
+  }
+  .toggle-switch.gender {
+    background: linear-gradient(to right, lightblue, #4082de) !important;
+  }
+  .toggle-switch.gender[data-clicked=true] {
+    background: linear-gradient(to right, #be40de, lightpink) !important;
+  }
+  .toggle-switch[data-clicked=true] .toggle-knob {
+    left: 40px;
+  }
 .nav ul {
     list-style-type: none;
     padding: 0;

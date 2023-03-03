@@ -40,6 +40,12 @@ buttons.forEach((btn) => {
         window.location.href = btn.dataset.link;
     });
 });
+var checks = document.querySelectorAll('.toggle-switch');
+checks.forEach((check) => {
+  check.addEventListener("click", ()=> {
+    check.dataset.clicked = (check.dataset.clicked == 'true' ? 'false' : 'true');
+  })
+})
 // const txl = document.querySelectorAll("textarea.adjusting");
 // txl.forEach(tx=>{
 //   for (let i = 0; i < tx.length; i++) {

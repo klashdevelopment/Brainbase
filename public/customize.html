@@ -53,10 +53,21 @@
 <input id="person" type="text" placeholder="Insert personality..."><br>
 <h3>Character (make brainbase act as _________)</h3>
 <input id="char" type="text" placeholder="Insert character..."><br>
+<h3 id="toggle-result">Gender: Male</h3>
+<div class="toggle-switch gender">
+  <div class="toggle-knob"></div>
+</div>
 <button class='big up' onclick="update()">Update <i class="fa-duotone fa-upload"></i></button><br>
 <button class=big data-lp="true" onclick="window.history.back()">Go Back <i class="fa-solid fa-circle-arrow-left"></i></button>
     </center>
+  
+    <script src='./Public.js'></script>
   <script>
+    document.querySelector('.toggle-switch').addEventListener('click', () => {
+      document.querySelector('#toggle-result').innerHTML = ('Gender: ' + (document.querySelector('.toggle-switch').dataset.clicked === 'false' ? 'Female' : 'Male'));
+    });
+    
+    document.querySelector('#toggle-result').innerHTML = ('Gender: ' + (document.querySelector('.toggle-switch').dataset.clicked === 'false' ? 'Female' : 'Male'));
     function loadPersonality() {
     if(window.localStorage.personality == null) {
       window.localStorage.personality = "smart, funny, friendly";
@@ -68,6 +79,13 @@
       window.localStorage.character = "human";
     }
     document.querySelector('#char').value = window.localStorage.character;
+  }
+  function loadGender() {
+    if(window.localStorage.gender == null) {
+      window.localStorage.gender = "false";
+    }
+    document.querySelector('#toggle-result').innerHTML = ('Gender: ' + (document.querySelector('.toggle-switch').dataset.clicked === 'false' ? 'Female' : 'Male'));
+    document.querySelector('.toggle-switch').dataset.clicked = window.localStorage.gender;
   }
   loadPersonality();
   loadCharacter();
@@ -81,8 +99,8 @@
     }, 1000);
     window.localStorage.personality = document.querySelector('#person').value;
     window.localStorage.character = document.querySelector('#char').value;
+    window.localStorage.isFemale = document.querySelector('.toggle-switch').dataset.checked;
   }
   </script>
-  <script src='./Public.js'></script>
 </body>
 </html>
