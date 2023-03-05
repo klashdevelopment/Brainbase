@@ -66,7 +66,8 @@ You are to be a ${req.query.character == undefined ? 'human' : req.query.charact
         if(history1.answer == null || history1.answer == undefined || history1.answer == '') {
           continue;
         }
-        messageHistory.push({role: history1.person == "Brainbase" ? 'assistant' : 'user', content: ""+history1.answer+""});
+        console.log(history1.person == "Brainbase" ? 'assistant' : (history1.person == "Sys" ? 'system' : 'user'));
+        messageHistory.push({role: history1.person == "Brainbase" ? 'assistant' : (history1.person == "Sys" ? 'system' : 'user'), content: ""+history1.answer+""});
       }
       // var oai = new opai.OpenAIApi();
       // console.log(messageHistory);
@@ -75,6 +76,9 @@ You are to be a ${req.query.character == undefined ? 'human' : req.query.charact
         model: 'gpt-3.5-turbo',
         n: 1
       }).then(rsp => {
+        if(rsp.statusText.includes("Too Many Requests")) {
+          res.json({answer: 'Error - Brainbase\'s servers have sent a LOT of messages recently. Please wait 1-2 minutes before continuing.', tmr: true})
+        }
         res.json({answer: rsp.data.choices[0].message.content});
       });
     } catch (exc) {
