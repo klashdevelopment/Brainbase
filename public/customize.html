@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>brainbase customize</title>
-    <link href="https://gtml.gavingogamingrepl.repl.co/regular-ass-style.css" rel="stylesheet">
+    <link href="https://site-assets.fontawesome.com/releases/v6.3.0/css/all.css" rel="stylesheet"/>
   <link href="https://unpkg.com/movement.css/movement.css" rel="stylesheet">
   <link href="/navs.css" rel="stylesheet">
   
@@ -54,7 +54,7 @@
 <h3>Character (make brainbase act as _________)</h3>
 <input id="char" type="text" placeholder="Insert character..."><br>
 <h3 id="toggle-result">Gender: Male</h3>
-<div class="toggle-switch gender">
+<div class="toggle-switch gender" data-clicked="false">
   <div class="toggle-knob"></div>
 </div>
 <button class='big up' onclick="update()">Update <i class="fa-duotone fa-upload"></i></button><br>
@@ -63,12 +63,11 @@
   
     <script src='./Public.js'></script>
   <script>
-    document.querySelector('.toggle-switch').addEventListener('click', () => {
-      document.querySelector('#toggle-result').innerHTML = ('Gender: ' + (document.querySelector('.toggle-switch').dataset.clicked === 'false' ? 'Female' : 'Male'));
-    });
-    
-    document.querySelector('#toggle-result').innerHTML = ('Gender: ' + (document.querySelector('.toggle-switch').dataset.clicked === 'false' ? 'Female' : 'Male'));
-    function loadPersonality() {
+    document.querySelector('.toggle-switch').onclick = () => {
+      var gdr = document.querySelector('.toggle-switch').dataset.clicked == 'true' ? 'Female' : 'Male';
+      document.querySelector('#toggle-result').textContent = ('Gender: '+gdr); 
+    };
+  function loadPersonality() {
     if(window.localStorage.personality == null) {
       window.localStorage.personality = "smart, funny, friendly";
     }
@@ -84,11 +83,13 @@
     if(window.localStorage.gender == null) {
       window.localStorage.gender = "false";
     }
-    document.querySelector('#toggle-result').innerHTML = ('Gender: ' + (document.querySelector('.toggle-switch').dataset.clicked === 'false' ? 'Female' : 'Male'));
     document.querySelector('.toggle-switch').dataset.clicked = window.localStorage.gender;
+    var gdr = document.querySelector('.toggle-switch').dataset.clicked == 'true' ? 'Female' : 'Male';
+    document.querySelector('#toggle-result').textContent = ('Gender: '+gdr); 
   }
   loadPersonality();
   loadCharacter();
+  loadGender();
   function update() {
     document.querySelector('.up > i').classList.add('spin');
     document.querySelector('.up').classList.add('clr');
@@ -99,7 +100,7 @@
     }, 1000);
     window.localStorage.personality = document.querySelector('#person').value;
     window.localStorage.character = document.querySelector('#char').value;
-    window.localStorage.isFemale = document.querySelector('.toggle-switch').dataset.checked;
+    window.localStorage.gender = document.querySelector('.toggle-switch').dataset.clicked;
   }
   </script>
 </body>
