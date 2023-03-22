@@ -233,7 +233,8 @@
                         (short ? "&short=true" : "&short=f") + ""+
                         "&gender=" + (window.localStorage.gender == 'true' ? 'female' : 'male') + ""+
                         "&person=" + window.localStorage.personality + ""+
-                        "&character=" + window.localStorage.character + "",
+                        "&character=" + window.localStorage.character + ""+
+                        "&including=true",
                     {
                         method: "POST",
                         body: JSON.stringify(params),
