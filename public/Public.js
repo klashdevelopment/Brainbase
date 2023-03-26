@@ -1,6 +1,10 @@
 var $ = document.querySelector;
 var $$= (q,c)=>{document.querySelectorAll(q).forEach(e=>c(e))};
 
+if(window.localStorage.authKey == null) {
+  window.location.href = '/login';
+}
+
 var newIcon = ''; //<img class=newtag height=30 src='/new-icon.png'>
 var menuIcon = document.querySelector('.menu-icon');
 var closeIcon = document.querySelector('.close-icon');
@@ -15,9 +19,9 @@ document.querySelector('.nav').innerHTML = `<ul>
     <li data-link="https://discord.gg/epBXp5hHBQ"><span>Discord</span><i class='fa-brands fa-discord'></i></li>
     <li data-link="/donate"><span>Donate</span><i class="fa-brands fa-usd"></i></li>
     <li class="spacer red">Other</li>
-    <li data-link="/boxgen"><span>Boxgen${newIcon}</span><i class='fa-solid fa-scroll'></i></li>
-    <li data-link="/ask.html"><span>Classic</span><i class='fa-solid fa-microchip'></i></li>
-</ul>`;
+    <li data-link="/boxgen"><span>Boxgen${newIcon}</span><i class='fa-solid fa-scroll'></i></li>`+
+    //<li data-link="/ask.html"><span>Classic</span><i class='fa-solid fa-microchip'></i></li>
+`</ul>`;
 var content = document.querySelector('.content');
 menuIcon.addEventListener('click', () => {
   closeIcon.style['display'] = 'block';

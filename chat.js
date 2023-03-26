@@ -5,6 +5,7 @@ function parseArray(array) {
 }
 function runchat(askGpt, app, oai) {
   app.use(bodyParser.json());
+  require('./auth')(app);
   app.get('/customization', (req, res) => {
     res.send(require('fs').readFileSync('public/customize.html', { encoding: 'utf-8' }));
     res.end();

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT Helper</title>
+    <link href="/g-ras.css" rel="stylesheet"/>
+  <link href="https://unpkg.com/movement.css/movement.css" rel="stylesheet">
+  <style>@import url('/chat.css');@import url('/navs.css');</style>
+</head>
+<body>
+  <style>
+    .center-pane {
+        background-color: rgb(226, 226, 226);
+        width: 40vw;
+        height: 70vh;
+        margin-top: 15vh;
+        color: black;
+        border-radius: 20px;
+        box-shadow: 2px 2px 15px white;
+    }
+    .content-zone {
+        padding-top: 30px;
+        width: 98%;
+        height: 85%;
+    }
+    .content-zone input {
+        width: 90%;
+        border-radius: 14px;
+        border: 2px solid black;
+        padding: 12px;
+        margin: 5px;
+    }
+    .content-zone button {
+        width: 90%;
+        border-radius: 14px;
+        border: 2px solid black;
+        padding: 12px;
+        margin: 5px;
+    }
+    .content-zone button:hover {
+        background: rgb(82, 82, 82);
+    }
+    .error {
+        font-weight: 900;
+        font-family: 'Montserrat';
+        color: rgb(255, 58, 58);
+    }
+    .sucess {
+        font-weight: 900;
+        font-family: 'Montserrat';
+        color: rgb(37, 156, 59);
+    }
+  </style>
+  <center>
+    <div class="center-pane">
+        <div class="content-zone" id="login-pane">
+            <h1>Log-in</h1>
+            <input placeholder="Username" id="username">
+            <input placeholder="Password" id="password" type="password">
+            <button id="btn">Log-in</button><br>
+            <a id="login-error" class="error"></a><br>
+            <a id="login-message" class="sucess"></a>
+        </div>
+        <div class="content-zone" id="signup-pane" style="display:none;">
+            <h1>Sign-up</h1>
+            <input placeholder="Email" id="semail">
+            <input placeholder="Username" id="susername">
+            <input placeholder="Password" id="spassword" type="password">
+            <button id="sbtn">Sign-up</button><br>
+            <a id="signup-error" class="error"></a><br>
+            <a id="signup-message" class="sucess"></a>
+        </div>
+        <b id="swaptext">Dont have an account?</b> <b><a href="#" id="swap">Sign up now.</a></b><br>
+        <small><b>Brainbase is an AI Platform</b></small>
+    </div>
+  </center>
+  <script>
+    var signupPane = document.querySelector('#signup-pane');
+    var loginPane = document.querySelector('#login-pane');
+    var swap = document.querySelector('#swap');
+    var swapText = document.querySelector('#swaptext');
+    var signupButton = document.querySelector('#sbtn');
+    var loginButton = document.querySelector('#btn');
+
+    var signupUsername = document.querySelector('#susername');
+    var signupEmail = document.querySelector('#semail');
+    var signupPassword = document.querySelector('#spassword');
+    var signupError = document.querySelector('#signup-error');
+    var signupMessage = document.querySelector('#signup-message');
+
+    var username = document.querySelector('#username');
+    var password = document.querySelector('#password');
+    var loginError = document.querySelector('#login-error');
+    var loginMessage = document.querySelector('#login-message');
+    
+    swap.addEventListener('click', (e)=>{
+        if(signupPane.style.display == 'none') {
+            signupPane.style.display = 'block';
+            loginPane.style.display = 'none';
+            swap.textContent = 'Log in now.';
+            swapText.textContent = 'Already have an account? ';
+        }else {
+            loginPane.style.display = 'block';
+            signupPane.style.display = 'none';
+            swap.textContent = 'Sign up now.';
+            swapText.textContent = 'Dont have an account? ';
+        }
+    });
+    loginButton.addEventListener('click', ()=>{
+        loginMessage.innerHTML=`<i style="text-shadow: 0px 0px 8px black;" class='fas fa-2x fa-spinner fa-pulse'></i>`
+        if(username.value.trim() == "" || password.value.trim() == "") {
+            loginMessage.innerHTML = '';
+            loginError.textContent = 'Fields can not be blank';
+            return;
+        }
+        fetch('/user/login', {
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username: username.value, password: password.value}),
+            method: "POST"
+        })
+        .then((res) => res.json())
+        .then(res => {
+            if(res.success == false) {
+                loginMessage.innerHTML = '';
+                loginError.textContent = res.error;
+                return;
+            }else {
+                window.localStorage.authKey = res.key;
+                signupError.innerHTML = '';
+                signupMessage.innerHTML = 'Successfully logged in! Redirecting you in 3...';
+                setTimeout(()=>{
+                    signupMessage.innerHTML = 'Successfully logged in! Redirecting you in 2...';
+                    setTimeout(()=>{
+                        signupMessage.innerHTML = 'Successfully logged in! Redirecting you in 1...';
+                        setTimeout(()=>{
+                            window.location.href = '/';
+                        }, 1000);
+                    }, 1000);
+                }, 1000);
+            }
+        });
+    });
+    signupButton.addEventListener('click', ()=>{
+        signupMessage.innerHTML=`<i style="text-shadow: 0px 0px 8px black;" class='fas fa-2x fa-spinner fa-pulse'></i>`
+        if(signupUsername.value.trim() == "" || signupEmail.value.trim() == "" || signupPassword.value.trim() == "") {
+            signupMessage.innerHTML = '';
+            signupError.textContent = 'Fields can not be blank';
+            return;
+        }
+        fetch('/user/register', {
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username: signupUsername.value, password: signupPassword.value, email: signupEmail.value}),
+            method: "POST"
+        })
+        .then((res) => res.json())
+        .then(res => {
+            if(res.success == false) {
+                signupMessage.innerHTML = '';
+                signupError.textContent = res.error;
+                return;
+            }else {
+                window.localStorage.authKey = res.secret;
+                signupError.innerHTML = '';
+                signupMessage.innerHTML = 'Successfully signed up! Redirecting you in 3...';
+                setTimeout(()=>{
+                    signupMessage.innerHTML = 'Successfully signed up! Redirecting you in 2...';
+                    setTimeout(()=>{
+                        signupMessage.innerHTML = 'Successfully signed up! Redirecting you in 1...';
+                        setTimeout(()=>{
+                            window.location.href = '/';
+                        }, 1000);
+                    }, 1000);
+                }, 1000);
+            }
+        });
+    });
+  </script>
+</body>
+</html>
