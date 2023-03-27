@@ -3,13 +3,30 @@ async function name() {
 if(window.localStorage.authKey == null) {
   window.location.href = '/login';
 }
-
+var MaxRequest = 250;
+var userIsPremium = false;
+await fetch('/user/check/premium', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({key: window.localStorage.authKey})})
+.then(res => res.json())
+.then(res => {userIsPremium = res.premium}).then(async unused2 => {
 var userIsAdmin = false;
 await fetch('/user/check/admin', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({key: window.localStorage.authKey})})
 .then(res => res.json())           
 .then(res => {
   userIsAdmin = res.admin;
 }).then(unused=>{
+  
+if(userIsPremium || userIsAdmin) {
+  MaxRequest = 2000;
+}
+
+  if(window.localStorage.LAST_DAY == null) {
+    window.localStorage.LAST_DAY = new Date().getDate();
+    window.localStorage.remreq = MaxRequest;
+  }
+  if(window.localStorage.LAST_DAY != new Date().getDate()) {
+    window.localStorage.LAST_DAY = new Date().getDate();
+    window.localStorage.remreq = MaxRequest;
+  }
 
 var newIcon = ''; //<img class=newtag height=30 src='/new-icon.png'>
 var menuIcon = document.querySelector('.menu-icon');
@@ -69,5 +86,5 @@ checks.forEach((check) => {
 //     tx.style.height = (this.scrollHeight) + "px";
 //   }
 // })
-});
+});});
 };name();
