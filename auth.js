@@ -101,7 +101,7 @@ function setupFor(app) {
             await userModel.findOne({secretKey: key})
             .then(function(user) {
                 if(user == null) {
-                    res.send({success: false, error: "User not found"});
+                    res.send({success: false, error: "User not found", premium: false});
                 } else {
                     res.send({success: true, premium: user.premium});
                 }
@@ -117,7 +117,7 @@ function setupFor(app) {
             await userModel.findOne({secretKey: key})
             .then(function(user) {
                 if(user == null) {
-                    res.send({success: false, error: "User not found"});
+                    res.send({success: false, error: "User not found", admin: false});
                 } else {
                     res.send({success: true, admin: user.admin});
                 }

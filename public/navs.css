@@ -57,12 +57,34 @@ body {
     background-color: #222222;
     background-attachment: fixed;
     height: 100vh;
-    overflow: auto;
-    position: absolute;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 9999;
 }
+.nav .fa-stack {
+    margin: 10px 6px;
+    padding: 0;
+    scale: 1.25;
+}
+.nts {
+    margin-top: 0 !important;
+}
+.nav .fa-stack .fa-stack-1x {
+    color: #1A1A1A;
+}
+::-webkit-scrollbar {
+    width: 10px; /* width of the scrollbar */
+    background-color: transparent; /* make the scrollbar background transparent */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    opacity: 0.5;
+    background-color: rgba(255, 255, 255, 0.5); /* set the scrollbar thumb to a semi-transparent white color */
+  }
+  
 .toggle-switch {
     width: 75px;
     height: 35px;
@@ -106,7 +128,7 @@ body {
 .nav li:not(.spacer) {
     background-color: #333;
     padding: 16px;
-    width: calc(20vw - 0.0px);
+    width: 20vw;
     margin-top: 10px;
     background-size: 200%;
     box-sizing: border-box;

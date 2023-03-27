@@ -1,21 +1,28 @@
-var $ = document.querySelector;
-var $$= (q,c)=>{document.querySelectorAll(q).forEach(e=>c(e))};
+async function name() {
 
 if(window.localStorage.authKey == null) {
   window.location.href = '/login';
 }
+
+var userIsAdmin = false;
+await fetch('/user/check/admin', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({key: window.localStorage.authKey})})
+.then(res => res.json())           
+.then(res => {
+  userIsAdmin = res.admin;
+}).then(unused=>{
 
 var newIcon = ''; //<img class=newtag height=30 src='/new-icon.png'>
 var menuIcon = document.querySelector('.menu-icon');
 var closeIcon = document.querySelector('.close-icon');
 document.querySelector('.nav').innerHTML = `<ul>
     <li data-link="/"><span>Home</span><i class='fa-solid fa-house'></i></li>
+${userIsAdmin ? `<li data-link="/admin.html"><span>Administrator</span><i class='fa-solid fa-hammer'></i></li>` : ''/*`<li data-link="/settings"><span>Account Settings</span><i class='fa-solid fa-gear'></i></li>`*/}
     <li class="spacer blue">Modes</li>`+
     // <li data-link="/multibot"><span>Multibot${newIcon}</span><i class='fa-solid fa-user-robot'></i></li>
    `<li data-link="/chatbot"><span>Chatbot</span><i class='fa-solid fa-message'></i></li>
-    <li data-link="/customization"><span>Customization</span><i class='fa-solid fa-gear'></i></li>
+    <li data-link="/customization"><span>Customization</span><i class='fa-solid fa-palette'></i></li>
     <li data-link="/vision"><span>Vision${newIcon}</span><i class='fa-solid fa-glasses'></i></li>
-    <li class="spacer green">Socials</li>
+    <li class="spacer aqua">Socials</li>
     <li data-link="https://discord.gg/epBXp5hHBQ"><span>Discord</span><i class='fa-brands fa-discord'></i></li>
     <li data-link="/donate"><span>Donate</span><i class="fa-brands fa-usd"></i></li>
     <li class="spacer red">Other</li>
@@ -62,3 +69,5 @@ checks.forEach((check) => {
 //     tx.style.height = (this.scrollHeight) + "px";
 //   }
 // })
+});
+};name();
