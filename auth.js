@@ -34,6 +34,7 @@ function setupFor(app) {
             }
         });
     });
+    
     app.use('/user/register', async function (req, res) {
         var key = generateSecretKey();
         res.type('application/json');
@@ -88,6 +89,38 @@ function setupFor(app) {
                         res.send({"error": exc.message, success: false});
                     }
                 });
+            });
+        }
+    });
+    
+    app.use('/user/check/premium', async function (req, res) {
+        var key = req.body.key;
+        if(key == null || key == undefined || key.trim() == "") {
+            res.send({success: false, error: "Missing key"});
+        } else {
+            await userModel.findOne({secretKey: key})
+            .then(function(user) {
+                if(user == null) {
+                    res.send({success: false, error: "User not found"});
+                } else {
+                    res.send({success: true, premium: user.premium});
+                }
+            });
+        }
+    });
+    
+    app.use('/user/check/admin', async function (req, res) {
+        var key = req.body.key;
+        if(key == null || key == undefined || key.trim() == "") {
+            res.send({success: false, error: "Missing key"});
+        } else {
+            await userModel.findOne({secretKey: key})
+            .then(function(user) {
+                if(user == null) {
+                    res.send({success: false, error: "User not found"});
+                } else {
+                    res.send({success: true, admin: user.admin});
+                }
             });
         }
     });
