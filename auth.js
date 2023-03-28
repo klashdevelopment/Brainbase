@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var userModel = require('./models/user');
+var STRIPE_PRODUCTION = false;
 mongoose.connect(process.env.MONGO_SRV, { useNewUrlParser: true, useUnifiedTopology: true });
 if(process.env.PRODUCTION == "true") {
     mongoose.connection.useDb('brainbase');
@@ -108,6 +109,39 @@ function setupFor(app) {
             });
         }
     });
+    app.use('/user/check/exists', async function (req, res) {
+        var key = req.body.key;
+        if(key == null || key == undefined || key.trim() == "") {
+            res.send({success: false, error: "Missing key"});
+        } else {
+            await userModel.findOne({secretKey: key})
+            .then(function(user) {
+                if(user == null) {
+                    res.send({success: false, error: "User not found", exists: false});
+                } else {
+                    res.send({success: true, exists: true});
+                }
+            });
+        }
+    });
+    
+    const stripe = require('stripe');
+    var stripeApp = new stripe.Stripe(STRIPE_PRODUCTION ? process.env.STRIPE_SECRET : process.env.STRIPE_SECRET_TEST);
+
+    // Define a new route for processing payments
+    app.post('/stripe/create-intent', (req, res) => {
+        const amount = 1000; // amount in cents
+        const currency = req.body.currency;
+
+        stripeApp.paymentIntents.create({
+            amount: amount,
+            currency: currency,
+            payment_method_types: ['card']
+        }).then(intent => {
+            res.send({secret: intent.client_secret});
+        });
+    });
+    app.get('/stripe/config', (req, res)=>{res.json({pubKey: (STRIPE_PRODUCTION ? process.env.STRIPE_PUBLIC : process.env.STRIPE_PUBLIC_TEST)})})
     
     app.use('/user/check/admin', async function (req, res) {
         var key = req.body.key;

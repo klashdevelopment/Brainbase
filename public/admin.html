@@ -68,12 +68,54 @@
             flex: 1;
             text-align: right;
           }
-    }</style>
+    }
+    
+    #pay-card {
+      padding: 6px;
+      background-color: rgb(222, 222, 222);;
+      color: black !important;
+    }
+    </style>
     <div class="parent">
         <div class="left-child"><h3>Daily Messages</h3><button onclick='alert("Resetting day");window.localStorage.LAST_DAY = new Date().getDate()-1;window.location.reload();'>Reset Message Count</button></div>
         <div class="right-child"><h3>Account Settings</h3><button onclick='window.location.href="mailto:developmentklash@gmail.com?subject=Premium Request&body=Access Token is set as"+window.localStorage.authKey;'>Request Premium Access</button></div>
     </div>
+    <h1>Payment TESTING area</h1>
+    <div id="pay">
+      <input id="email_pay" placeholder="Email"><input id="name_pay" placeholder="Name">
+      <div id="pay-card" style="width: 30vw;"></div>
+      <button id="buy">Buy</button>
+      <h3 id="result"></h3>
+    </div>
   </center>
+  <script src="https://js.stripe.com/v3/" async></script>
+  <script>
+      document.addEventListener('DOMContentLoaded', async (e)=>{
+        var {pubKey: PKEY} = await fetch('/stripe/config').then((res)=>res.json());
+
+        var purchaseBtn = document.querySelector('#buy');
+        var email = document.querySelector('#email_pay');
+        var name = document.querySelector('#name_pay');
+        var stripe = Stripe(PKEY);
+        var elements = stripe.elements();
+        var cardElement = elements.create('card');
+        cardElement.mount('#pay-card');
+
+        purchaseBtn.addEventListener('click', ()=>{
+          fetch('/stripe/create-intent', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({currency: 'usd'})
+          }).then(res => res.json())
+          .then(async result => {
+            var clientSecret = result.secret;
+            const {paymentIntent} = await stripe.confirmCardPayment(clientSecret, {payment_method: {card: cardElement,
+            billing_details: {email: email.value, name: name.value}}});
+            document.querySelector('#result').textContent ="Your payment is " + paymentIntent.status;
+          })
+        });
+      });
+  </script>
   <script src="Public.js"></script>
 </body>
 </html>
