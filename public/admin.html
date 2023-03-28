@@ -1,121 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPT Helper</title>
-    <link href="/g-ras.css" rel="stylesheet"/>
-  <link href="https://unpkg.com/movement.css/movement.css" rel="stylesheet">
-  <style>@import url('/chat.css');@import url('/navs.css');</style>
+    <link href="/g-ras.css" rel="stylesheet" />
+    <link href="https://unpkg.com/movement.css/movement.css" rel="stylesheet">
+    <style>
+        @import url('/chat.css');
+        @import url('/navs.css');
+    </style>
 </head>
-<body>
-  <div class="menu-icon"><i class='fa-solid  fa-bars'></i></div>
-  <div class="close-icon"><i class='fa-solid  fa-circle-xmark'></i></div>
-    <nav class="nav"></nav>
-  <center class='content'>
-    <script>
-        fetch('/user/check/admin', {
-            method: 'POST',
-            body: JSON.stringify({key: window.localStorage.authKey}),
-            headers: {'Content-Type': 'application/json'}
-        }).then(res=>res.json())
-        .then(res => {
-            if(!res.admin) {
-                alert("You are NOT authenticated to view this page.");
-                window.location.href = '/';
-            }else {
 
+<body>
+    <div class="menu-icon"><i class='fa-solid  fa-bars'></i></div>
+    <div class="close-icon"><i class='fa-solid  fa-circle-xmark'></i></div>
+    <nav class="nav"></nav>
+    <center class='content'>
+        <script>
+            fetch('/user/check/admin', {
+                method: 'POST',
+                body: JSON.stringify({ key: window.localStorage.authKey }),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(res => res.json())
+                .then(res => {
+                    if (!res.admin) {
+                        alert("You are NOT authenticated to view this page.");
+                        window.location.href = '/';
+                    } else {
+
+                    }
+                });
+        </script>
+        <h1>Administration</h1>
+        <style>
+            @media only screen and (min-width: 1145px) {
+                .parent {
+                    margin: 0 15vw;
+                    display: flex;
+                }
+
+                .left-child {
+                    width: 50%;
+                    border-right: 1px solid #ffffff;
+                }
+
+                .right-child {
+                    width: 50%;
+                    border-left: 1px solid #ffffff;
+                }
+
+                .split-three {
+                    margin: 0 15vw;
+                    display: flex;
+                    justify-content: space-between;
+                    border-top: 1px solid lightblue;
+                    margin-top: 65px;
+                }
+
+                .s3-left-child {
+                    flex: 1;
+                    text-align: left;
+                }
+
+                .s3-middle-child {
+                    flex: 1;
+                    text-align: center;
+                }
+
+                .s3-right-child {
+                    flex: 1;
+                    text-align: right;
+                }
             }
+
+            #pay-card {
+                padding: 6px;
+                background-color: rgb(222, 222, 222);
+                ;
+                color: black !important;
+                width: 30vw;
+            }
+        </style>
+        <div class="parent">
+            <div class="left-child">
+                <h3>Daily Messages</h3><button
+                    onclick='alert("Resetting day");window.localStorage.LAST_DAY = new Date().getDate()-1;window.location.reload();'>Reset
+                    Message Count</button>
+            </div>
+            <div class="right-child">
+                <h3>Account Settings</h3><button
+                    onclick='window.location.href="mailto:developmentklash@gmail.com?subject=Premium Request&body=Access Token is set as"+window.localStorage.authKey;'>Request
+                    Premium Access</button>
+            </div>
+        </div>
+        <div>
+            <h1>Announcements</h1>
+            <textarea type="text" id="title" placeholder="Title"></textarea>
+            <textarea type="text" id="body" placeholder="Body (markdown supported)"></textarea>
+            <textarea type="text" id="author" placeholder="Author"></textarea><br>
+            <button id="san">Confirm and send</button>
+        </div>
+        <h1>Payment TESTING area</h1>
+        <div id="pay">
+            <input id="email_pay" placeholder="Email"><input id="name_pay" placeholder="Name">
+            <div id="pay-card"></div>
+            <button id="buy">Buy</button>
+            <h3 id="result"></h3>
+        </div>
+    </center>
+    <script src="https://js.stripe.com/v3/" async></script>
+    <script>
+        document.querySelector('#san').addEventListener('click', ()=>{
+            fetch('/announce', {
+                body: JSON.stringify({
+                    title: document.querySelector('#title').value,
+                    content: document.querySelector('#body').value,
+                    author: document.querySelector('#author').value,
+                }),
+                headers: {'Content-Type': 'application/json'},
+                method: 'POST'
+            }).then(res=>res.text())
+            .then((ralik)=>{
+                document.querySelector('#title').value = "";
+                document.querySelector('#body').value = "";
+                document.querySelector('#author').value = "";
+                alert(ralik);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', async (e) => {
+            var { pubKey: PKEY } = await fetch('/stripe/config').then((res) => res.json());
+
+            var purchaseBtn = document.querySelector('#buy');
+            var email = document.querySelector('#email_pay');
+            var name = document.querySelector('#name_pay');
+            var stripe = Stripe(PKEY);
+            var elements = stripe.elements();
+            var cardElement = elements.create('card');
+            cardElement.mount('#pay-card');
+
+            purchaseBtn.addEventListener('click', () => {
+                fetch('/stripe/create-intent', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ currency: 'usd' })
+                }).then(res => res.json())
+                    .then(async result => {
+                        var clientSecret = result.secret;
+                        const { paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                            payment_method: {
+                                card: cardElement,
+                                billing_details: { email: email.value, name: name.value }
+                            }
+                        });
+                        document.querySelector('#result').textContent = "Your payment is " + paymentIntent.status;
+                    })
+            });
         });
     </script>
-    <h1>Administration</h1>
-    <style>@media only screen and (min-width: 1145px) {
-        .parent {
-            margin: 0 15vw;
-            display: flex;
-        }
-        
-        .left-child {
-            width: 50%;
-            border-right: 1px solid #ffffff;
-        }
-        
-        .right-child {
-            width: 50%;
-            border-left: 1px solid #ffffff;
-        }
-        
-        .split-three {
-            margin: 0 15vw;
-            display: flex;
-            justify-content: space-between;
-            border-top: 1px solid lightblue;
-            margin-top: 65px;
-          }
-          
-          .s3-left-child {
-            flex: 1;
-            text-align: left;
-          }
-          
-          .s3-middle-child {
-            flex: 1;
-            text-align: center;
-          }
-          
-          .s3-right-child {
-            flex: 1;
-            text-align: right;
-          }
-    }
-    
-    #pay-card {
-      padding: 6px;
-      background-color: rgb(222, 222, 222);;
-      color: black !important;
-    }
-    </style>
-    <div class="parent">
-        <div class="left-child"><h3>Daily Messages</h3><button onclick='alert("Resetting day");window.localStorage.LAST_DAY = new Date().getDate()-1;window.location.reload();'>Reset Message Count</button></div>
-        <div class="right-child"><h3>Account Settings</h3><button onclick='window.location.href="mailto:developmentklash@gmail.com?subject=Premium Request&body=Access Token is set as"+window.localStorage.authKey;'>Request Premium Access</button></div>
-    </div>
-    <h1>Payment TESTING area</h1>
-    <div id="pay">
-      <input id="email_pay" placeholder="Email"><input id="name_pay" placeholder="Name">
-      <div id="pay-card" style="width: 30vw;"></div>
-      <button id="buy">Buy</button>
-      <h3 id="result"></h3>
-    </div>
-  </center>
-  <script src="https://js.stripe.com/v3/" async></script>
-  <script>
-      document.addEventListener('DOMContentLoaded', async (e)=>{
-        var {pubKey: PKEY} = await fetch('/stripe/config').then((res)=>res.json());
-
-        var purchaseBtn = document.querySelector('#buy');
-        var email = document.querySelector('#email_pay');
-        var name = document.querySelector('#name_pay');
-        var stripe = Stripe(PKEY);
-        var elements = stripe.elements();
-        var cardElement = elements.create('card');
-        cardElement.mount('#pay-card');
-
-        purchaseBtn.addEventListener('click', ()=>{
-          fetch('/stripe/create-intent', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({currency: 'usd'})
-          }).then(res => res.json())
-          .then(async result => {
-            var clientSecret = result.secret;
-            const {paymentIntent} = await stripe.confirmCardPayment(clientSecret, {payment_method: {card: cardElement,
-            billing_details: {email: email.value, name: name.value}}});
-            document.querySelector('#result').textContent ="Your payment is " + paymentIntent.status;
-          })
-        });
-      });
-  </script>
-  <script src="Public.js"></script>
+    <script src="Public.js"></script>
 </body>
+
 </html>

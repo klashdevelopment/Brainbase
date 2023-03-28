@@ -41,6 +41,7 @@ ${userIsAdmin ? `<li data-link="/admin.html"><span>Administrator</span><i class=
     <li data-link="/vision"><span>Vision${newIcon}</span><i class='fa-solid fa-glasses'></i></li>
     <li class="spacer aqua">Socials</li>
     <li data-link="https://discord.gg/epBXp5hHBQ"><span>Discord</span><i class='fa-brands fa-discord'></i></li>
+    <li data-link="/news"><span>News Center</span><i class='fa-solid fa-book'></i></li>
     <li data-link="/donate"><span>Donate</span><i class="fa-brands fa-usd"></i></li>
     <li class="spacer red">Other</li>
     <li data-link="/boxgen"><span>Boxgen${newIcon}</span><i class='fa-solid fa-scroll'></i></li>`+

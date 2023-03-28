@@ -124,6 +124,41 @@ function setupFor(app) {
             });
         }
     });
+    // Route to serve the news.html file
+    app.use('/news', (req, res) => {
+        const fs = require('fs');
+        const newsHtml = fs.readFileSync('public/news.html', 'utf-8');
+        res.end(newsHtml);
+    });
+
+    // Route to serve the contents of news.json file
+    app.use('/listnews', (req, res) => {
+        const fs = require('fs');
+        const newsJson = fs.readFileSync('news.json', 'utf-8');
+        res.json(JSON.parse(newsJson));
+    });
+
+    app.use('/announce', async (req, res)=>{
+        var content = {
+            title: req.body.title,
+            body: require('marked').marked(req.body.content),
+            author: req.body.author
+        };
+        var fs = require('fs');
+        try {
+            let data = fs.readFileSync('news.json', 'utf8');
+            let news = JSON.parse(data);
+            news.push(content);
+            let json = JSON.stringify(news);
+            fs.writeFileSync('news.json', json, 'utf8');
+            console.log("Announcement saved successfully!");
+        } catch (err) {
+            console.log(err);
+            res.end('Failure');
+            return;
+        }
+        res.end('Success!');
+    });    
     
     const stripe = require('stripe');
     var stripeApp = new stripe.Stripe(STRIPE_PRODUCTION ? process.env.STRIPE_SECRET : process.env.STRIPE_SECRET_TEST);

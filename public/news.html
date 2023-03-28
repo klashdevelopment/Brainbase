@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News | Brainbase</title>
+    <link href="/g-ras.css" rel="stylesheet" />
+    <link href="https://unpkg.com/movement.css/movement.css" rel="stylesheet">
+    <style>
+        @import url('/chat.css');
+        @import url('/navs.css');
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 1rem;
+        }
+
+        .news-card {
+            margin: 10px 50px;
+            padding: 3px;
+            background-color: #2f2f32;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+            border: 1px solid #888;
+        }
+        button {
+            background-color: #272729;
+        }
+
+        .news-card h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        /* The Modal (background) */
+        .modal {
+        display: none; /* Hidden by default */
+        position: absolute; /* Stay in place */
+        top: 0;
+        z-index: 1; /* Sit on top */
+        /* overflow: auto; Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+        background-color: rgba(74, 74, 74, 0.9);
+        margin-top: 15%; /* 15% from the top and centered */
+        margin-bottom: 15%; /* 15% from the top and centered */
+        padding: 20px;
+        border-radius: 25px;
+        border: 1px solid #888;
+        width: 60%; /* Could be more or less, depending on screen size */
+        }
+
+        /* The Close Button */
+        .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="menu-icon"><i class='fa-solid fa-bars'></i></div>
+    <div class="close-icon"><i class='fa-solid fa-circle-xmark'></i></div>
+    <nav class="nav"></nav>
+    <center class="content">
+        <h1>Brainbase News Center</h1>
+        <div id="news-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modal-title"></h2>
+                <p id="modal-body"></p>
+                <b id="modal-author"></b>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <!-- News items will be dynamically added here -->
+        </div>
+    </center>
+    <script>
+        // Fetch news data from /listnews endpoint
+        fetch('/listnews')
+            .then(response => response.json())
+            .then(data => {
+                const newsContainer = document.querySelector('.content');
+                // Generate news grid
+                data.forEach(newsItem => {
+                    const newsElement = document.createElement('div');
+                    newsElement.classList.add('news-card');
+
+                    const newsTitle = document.createElement('h3');
+                    newsTitle.textContent = newsItem.title;
+                    newsElement.appendChild(newsTitle);
+
+                    var newsPreview = document.createElement('p');
+                    var sentences = newsItem.body.split('. ');
+                    var selectedSentences = sentences.slice(0, 2).join('. ');
+                    var result = selectedSentences + '...';
+                    newsPreview.innerHTML = result;
+                    newsElement.appendChild(newsPreview);
+
+                    const viewButton = document.createElement('button');
+                    viewButton.textContent = 'View';
+                    viewButton.addEventListener('click', () => {
+                        showModal(newsItem.title, newsItem.body, newsItem.author);
+                    });
+                    newsElement.appendChild(viewButton);
+
+                    newsContainer.appendChild(newsElement);
+                });
+            })
+            .catch(error => console.error(error));
+
+        var span = document.getElementsByClassName("close")[0];
+        var modal = document.querySelector('#news-modal');
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Show modal with news content
+        function showModal(title, content, authoor) {
+            var titleE = document.querySelector('#modal-title');
+            var bodyE = document.querySelector('#modal-body');
+            var authE = document.querySelector('#modal-author');
+            titleE.textContent = title;
+            bodyE.innerHTML=content;
+            authE.textContent=authoor;
+            modal.style.display = 'block';
+        }
+    </script>
+    <script src="Public.js"></script>
+</body>
+
+</html>
