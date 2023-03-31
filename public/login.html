@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPT Helper</title>
     <link href="/g-ras.css" rel="stylesheet"/>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <link href="https://unpkg.com/movement.css/movement.css" rel="stylesheet">
   <style>@import url('/chat.css');@import url('/navs.css');</style>
 </head>
@@ -88,6 +89,8 @@
             <h1>Log-in</h1>
             <input placeholder="Username" id="username">
             <input placeholder="Password" id="password" type="password">
+            <div class="g-recaptcha" data-sitekey="6Lea9UUlAAAAAJwi0tC9F4KTs7uUye851cSJP35g"></div>
+            <br/>
             <button id="btn">Log-in</button><br>
             <a id="login-error" class="error"></a><br>
             <a id="login-message" class="sucess"></a>
@@ -97,6 +100,8 @@
             <input placeholder="Email" id="semail">
             <input placeholder="Username" id="susername">
             <input placeholder="Password" id="spassword" type="password">
+            <div class="g-recaptcha" data-sitekey="6Lea9UUlAAAAAJwi0tC9F4KTs7uUye851cSJP35g"></div>
+            <br/>
             <button id="sbtn">Sign-up</button><br>
             <a id="signup-error" class="error"></a><br>
             <a id="signup-message" class="sucess"></a>
