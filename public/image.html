@@ -32,8 +32,14 @@
   <center class='content'>
     <h1>Brainbase: Vision</h1>
     <h3><i>Brainbase with a pair of eyes.</i></h3>
+    <h5>Imagen is spelt correctly (Image-Gen)</h5>
     <img src='/default.png' width=256 height=256 id=result><br>
     <textarea type="text" id='ask' placeholder="Prompt..."></textarea><br>
+    <select id="model">
+      <option value="de2">Dall-E 2 (Realistic)</option>
+      <option value="av3">Anything v3 (Anime)</option>
+      <option value="sd">Stable Diffusion v5 (BETA - MAY BREAK AT ANY TIME)</option>
+    </select>
     <button id=imagen>Imagen It</button>
     <script>
       var result = document.querySelector('#result');
@@ -41,13 +47,35 @@
       async function handle(url) {
         result.src = url;
       }
+      async function handleSD(url) {
+        result.src = `data:image/png;base64,${JSON.parse(url).base64}`;
+      }
       async function ask() {
         result.src = '/loading.png';
-        await fetch('/imagen/api?prompt='+at.value)
-        .then(res => res.text())
-        .then(async json => {
-          await handle(json);
-        });
+        switch(document.querySelector('#model').value) {
+          case "sd":
+            await fetch('/sdgen', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({prompt: at.value})})
+            .then(res => res.text())
+            .then(async json => {
+              await handleSD(json);
+            });
+            break;
+          case "de2":
+            await fetch('/imagen/api?prompt='+at.value)
+            .then(res => res.text())
+            .then(async json => {
+              await handle(json);
+            });
+            break;
+          case 'av3':
+            await fetch('/anything?prompt='+at.value)
+            .then(res => res.text())
+            .then(async json => {
+              await handle(json);
+            });
+            break;
+          break;
+        }
       }
       document.querySelector('#imagen').addEventListener('click', ask);
     </script>

@@ -18,7 +18,9 @@ function generateSecretKey() {
 }
 
 function setupFor(app) {
+    require('./images')(app);
     app.get('/login', function(req, res) {
+        res.type('html');
         res.end(require('fs').readFileSync('public/login.html', {encoding: 'utf-8'}));
     });
     app.use('/user/login', async function (req, res) {
@@ -35,6 +37,32 @@ function setupFor(app) {
             }
         });
     });
+    app.use('/reset-password/:email', (req, res) => {
+        const nodemailer = require('nodemailer');
+        let transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'developmentklash',
+            pass: process.env.KLASH_DEV_PASSWORD
+          }
+        });
+        let mailOptions = {
+          from: 'noreply@klash.dev', // sender address
+          to: req.params.email, // list of receivers
+          subject: 'Reset Klash.dev Password', // Subject line
+          text: 'Click here or smth', // plain text body
+        };
+    
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+    
+      })
     
     app.use('/user/register', async function (req, res) {
         var key = generateSecretKey();
