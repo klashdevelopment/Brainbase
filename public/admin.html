@@ -103,12 +103,17 @@
             <textarea type="text" id="author" placeholder="Author"></textarea><br>
             <button id="san">Confirm and send</button>
         </div>
-        <h1>Payment TESTING area</h1>
+        <h1>ONE TIME Payment area</h1>
         <div id="pay">
             <input id="email_pay" placeholder="Email"><input id="name_pay" placeholder="Name">
             <div id="pay-card"></div>
             <button id="buy">Buy</button>
             <h3 id="result"></h3>
+        </div>
+        <h1>RECURRING payment area</h1>
+        <div id="subscribe">
+            
+
         </div>
     </center>
     <script src="https://js.stripe.com/v3/" async></script>
@@ -137,10 +142,23 @@
             var purchaseBtn = document.querySelector('#buy');
             var email = document.querySelector('#email_pay');
             var name = document.querySelector('#name_pay');
-            var stripe = Stripe(PKEY);
+            var stripe = await Stripe(PKEY);
             var elements = stripe.elements();
             var cardElement = elements.create('card');
             cardElement.mount('#pay-card');
+
+            stripe.confirmSetup({
+                elements,
+                confirmParams: {
+                    return_url: 'https://example.com',
+                },
+            })
+
+            .then(function(result) {
+                if (result.error) {
+                    // Inform the customer that there was an error.
+                }
+            });
 
             purchaseBtn.addEventListener('click', () => {
                 fetch('/stripe/create-intent', {

@@ -27,41 +27,39 @@ function setupFor(app) {
         var username = req.body.username;
         var password = req.body.password;
         await userModel.findOne({username: username})
-        .then(function(user) {
+        .then(async function(user) {
             if(user == null) {
-                res.send({success: false, 'error': 'User not found'});
+                await userModel.findOne({email: username})
+                .then(function(user) {
+                    if(user == null) {
+                        res.send({success: false, 'error': 'User not found'});
+                    }else if(user.password != password) {
+                        res.send({success: false, 'error': 'Invalid username, email, or password'});
+                    }else {
+                        res.send({success: true, key: user.secretKey});
+                    }
+                });
             }else if(user.password != password) {
-                res.send({success: false, 'error': 'Invalid username or password'});
+                res.send({success: false, 'error': 'Invalid username, email, or password'});
             }else {
                 res.send({success: true, key: user.secretKey});
             }
         });
     });
     app.use('/reset-password/:email', (req, res) => {
-        const nodemailer = require('nodemailer');
-        let transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: 'developmentklash',
-            pass: process.env.KLASH_DEV_PASSWORD
-          }
-        });
-        let mailOptions = {
-          from: 'noreply@klash.dev', // sender address
-          to: req.params.email, // list of receivers
-          subject: 'Reset Klash.dev Password', // Subject line
-          text: 'Click here or smth', // plain text body
-        };
-    
-        // send mail with defined transport object
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log('Email sent: ' + info.response);
-          }
-        });
-    
+        var {Email} = require('./packages/smtp');
+        Email.send({
+            Host: "smtp.gmail.com",
+            Username: "developmentklash@gmail.com",
+            Password: process.env.KLASH_DEV_PASSWORD,
+            To: req.params.email,
+            From: "developmentklash@gmail.com",
+            Subject: "Sending Email using javascript",
+            Body: "Well that was easy!!",
+        })
+        .then(Result => {
+            res.end(JSON.stringify(Result));
+        })
       })
     
     app.use('/user/register', async function (req, res) {

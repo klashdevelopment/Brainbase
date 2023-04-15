@@ -20,7 +20,9 @@
     "nodemailer": "^6.9.1",
     "nodemon": "^2.0.20",
     "openai": "^3.2.1",
+    "protonmail-api": "^2.2.0",
     "replicate": "^0.9.1",
-    "stripe": "^11.16.0"
+    "stripe": "^11.16.0",
+    "xhr2": "^0.2.1"
   }
 }
