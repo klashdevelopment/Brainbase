@@ -3,6 +3,8 @@ module.exports = function(jsonAnswer, question) {
   return `
   <html>
   <head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7614959482950422"
+     crossorigin="anonymous"></script>
   <title>${question} | Brainbase</title>
     <link href="https://gtml.gavingogamingrepl.repl.co/regular-ass-style.css" rel="stylesheet">
   <link href="https://unpkg.com/movement.css/movement.css" rel="stylesheet">
