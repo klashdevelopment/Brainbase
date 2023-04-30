@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "runpod",
+      "source": "@runpod/v1.0#pm2c281lgtzs7dt",
+      "integrity": "sha512-+7FiM9UF96J9LnwIph1aF5sVnUiLhgpZGIgG7jO+stWAHzU3gt46t0mKGAuSis7i6omN8SwMUV1nxyW3PSRuQg==",
+      "installerVersion": "5.0.8"
+    }
+  ]
+}
