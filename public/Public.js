@@ -1,5 +1,8 @@
 async function name() {
 
+var down = await fetch('/checkdown');
+if(parseInt(down) == 1) window.localStorage.href='/down.html';
+
 if(window.localStorage.authKey == null) {
   window.location.href = '/login';
 }

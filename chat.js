@@ -53,6 +53,9 @@ function runchat(askGpt, app, oai) {
     fs.writeFile('images.json', JSON.stringify(orig), 'utf8', () => { console.log("Brainbase has been used"); });
     res.end((await r).data.data[0].url);
   });
+  app.use('/down', (req, res) => {
+    res.end('1');
+  });
   app.use('/chatbotresponse', async (req, res) => {
     try {
       res.type('text/json');
