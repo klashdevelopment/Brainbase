@@ -1,6 +1,6 @@
 async function name() {
 
-var down = await fetch('/checkdown');
+var down = await (await fetch('/checkdown')).text();
 if(parseInt(down) == 1) window.localStorage.href='/down.html';
 
 if(window.localStorage.authKey == null) {
